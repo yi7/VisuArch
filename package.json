@@ -1,0 +1,12 @@
+{
+	"name": "visuarch",
+	"main": "server.js",
+	"scripts": {
+		"start": "node server.js"
+	},
+	"dependencies": {
+		"body-parser": "~1.13.1",
+		"express": "~4.13.1",
+		"mongoose": "~4.2.3"
+	}
+}
