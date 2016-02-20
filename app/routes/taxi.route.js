@@ -72,10 +72,10 @@ module.exports = function(router) {
                     res.send(err);
 
                 // update the taxi coordinates
-                taxi.pickupCoordinates.longitude = req.body.pickupCoordinates.longitude;
-                taxi.pickupCoordinates.latitude = req.body.pickupCoordinates.latitude;
-                taxi.dropoffCoordinates.longitude = req.body.dropoffCoordinates.longitude;
-                taxi.dropoffCoordinates.latitude = req.body.dropoffCoordinates.latitude;
+                taxi.pickupCoordinates.longitude = req.body.taxi_id.pickupCoordinates.longitude;
+                taxi.pickupCoordinates.latitude = req.body.taxi_id.pickupCoordinates.latitude;
+                taxi.dropoffCoordinates.longitude = req.body.taxi_id.dropoffCoordinates.longitude;
+                taxi.dropoffCoordinates.latitude = req.body.taxi_id.dropoffCoordinates.latitude;
 
                 // save the taxi
                 taxi.save(function(err) {
