@@ -24,11 +24,15 @@ module.exports = function(router) {
         .post(function(req, res) {
             var taxi = new Taxi(); // create a new instance of the Taxi model
 
-            // set the taxi pickup coordinates (comes from the request)
+            // set the taxi data (comes from the request)
+            taxi.passengerCount = req.body.passengerCount;
+            taxi.trip_distance = req.body.trip_distance;
             taxi.pickupCoordinates.longitude = req.body.pickupCoordinates.longitude;
             taxi.pickupCoordinates.latitude = req.body.pickupCoordinates.latitude;
             taxi.dropoffCoordinates.longitude = req.body.dropoffCoordinates.longitude;
             taxi.dropoffCoordinates.latitude = req.body.dropoffCoordinates.latitude;
+            taxi.tip_amount = req.body.tip_amount;
+            taxi.total_amount = req.body.total_amount;
 
             // save the taxi and check for errors
             taxi.save(function(err) {
@@ -71,11 +75,15 @@ module.exports = function(router) {
                 if (err)
                     res.send(err);
 
-                // update the taxi coordinates
+                // update the taxi data
+                taxi.passengerCount = req.body.passengerCount;
+                taxi.trip_distance = req.body.trip_distance;
                 taxi.pickupCoordinates.longitude = req.body.taxi_id.pickupCoordinates.longitude;
                 taxi.pickupCoordinates.latitude = req.body.taxi_id.pickupCoordinates.latitude;
                 taxi.dropoffCoordinates.longitude = req.body.taxi_id.dropoffCoordinates.longitude;
                 taxi.dropoffCoordinates.latitude = req.body.taxi_id.dropoffCoordinates.latitude;
+                taxi.tip_amount = req.body.tip_amount;
+                taxi.total_amount = req.body.total_amount;
 
                 // save the taxi
                 taxi.save(function(err) {
