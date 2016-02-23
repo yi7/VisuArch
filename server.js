@@ -40,6 +40,11 @@ require('./app/routes/taxi.route')(router);
 // all our routes will be prefixed with /api
 app.use('/api', router);
 
+// refreshed page will go through index.html first
+app.all('/*', function(req, res, next) {
+    res.sendFile('public/index.html', { root: __dirname });
+});
+
 app.listen(port);
 console.log('App listening on port: ' + port);
 
