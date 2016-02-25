@@ -1,9 +1,10 @@
-.chart rect {
-  fill: steelblue;
+.chart {
+    width: 600px;
+    height: 700px;
 }
 
 .chart text {
-  fill: white;
-  font: 10px sans-serif;
-  text-anchor: end;
+  fill: black;
+  font: 1.5em sans-serif;
+  text-anchor: middle;
 }

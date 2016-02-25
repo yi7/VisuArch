@@ -5,17 +5,7 @@ angular.module('TaxiService', [])
     .factory('Taxi', ['$http', function($http) {
 
         return {
-            // call to get all taxis
             getAll : function(callback) {
-                /*return $http.get('/api/taxis').then( function(response) {
-                    console.log(callback);
-                    return response.data;
-                    //if(callback) {
-                        //console.log(response.data);
-                    //}
-                }).catch(function(error) {
-                    console.log(error);
-                });*/
                 return $http.get('/api/taxis');
             },
 
@@ -24,7 +14,7 @@ angular.module('TaxiService', [])
                 return $http.post('/api/taxis', taxiData);
             },
 
-            // call to DELETE a nerd
+            // call to DELETE a taxi
             delete : function(id) {
                 return $http.delete('/api/taxis/' + id);
             }

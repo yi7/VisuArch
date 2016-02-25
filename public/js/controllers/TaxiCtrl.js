@@ -5,41 +5,53 @@ angular.module('TaxiCtrl', [])
 
         $scope.tagline = 'Test Taxi Controller';
 
-        var canvas = d3.select("svg")
-            .attr("width", 500)
-            .attr("height", 500)
+        var canvas = d3.select(".chart");
 
-        var circle = canvas.append("circle")
-            .attr("cx", 250)
-            .attr("cy", 250)
-            .attr("r", 50)
-            .attr("fill", "red");
+        Taxi.getAll().then(function(response) {
+            var pCount = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0};
 
-        var rect = canvas.append("rect")
-            .attr("width", 100)
-            .attr("height", 50);
-
-        var line = canvas.append("line")
-            .attr("x1", 0)
-            .attr("y1", 100)
-            .attr("x2", 400)
-            .attr("y2", 400)
-            .attr("stroke", "yellow")
-            .attr("stroke-width", 2);
-
-        /*Taxi.getAll().then(function(response) {
-            if(response) {
-            d3.json(response.data, function(data) {
-                canvas.selectAll("rect")
-                    .data(data)
-                    .enter()
-                        .append("rect")
-                        .attr("width", function(d) { return d.passenger_count * 10; })
-                        .attr("height", 28)
-                        .attr("y", function(d, i) { return i * 50; })
-                        .attr("fill", "red")
-            });
+            for( var i = 0; i < response.data.length; i++) {
+                pCount[response.data[i].passenger_count]++;
             }
-            //console.log(response);
-        });*/
+
+            var data = [pCount[1], pCount[2], pCount[3], pCount[4], pCount[5], pCount[6]];
+            var r = 300;
+
+            var color = d3.scale.ordinal()
+                .range(["red", "blue", "orange", "yellow", "green", "cyan"]);
+
+            var group = canvas.append("g")
+                .attr("transform", "translate(300, 300)");
+
+            var arc = d3.svg.arc()
+                .innerRadius(200)
+                .outerRadius(300);
+
+            var pie = d3.layout.pie()
+                .value(function(d) { return d });
+
+            var arcs = group.selectAll(".arc")
+                .data(pie(data))
+                .enter()
+                .append("g")
+                .attr("class", "arc");
+
+            arcs.append("path")
+                .attr("d", arc)
+                .attr("fill", function(d) { return color(d.data)});
+
+            arcs.append("text")
+                .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+                .text(function(d, i) { return i + 1; });
+            /*canvas.selectAll("rect")
+                //.data(pCount)
+                //.enter()
+                    .append("rect")
+                    .attr("width", 30)
+                    .attr("height", 28)
+                    //.attr("y", function(d, i) { return i * 50 })
+                    .attr("fill", "red");*/
+            //$scope.taxis = response.data;
+
+        });
 });
