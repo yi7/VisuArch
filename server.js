@@ -35,7 +35,9 @@ var port = process.env.PORT || 3000; // set our port
 
 // get an instance of the express Router
 var router = express.Router();
-require('./app/routes/taxi.route')(router);
+require('./app/routes/MainRoute')(router);
+require('./app/routes/MongoRoute')(router);
+require('./app/routes/FireRoute')(router);
 
 // all our routes will be prefixed with /api
 app.use('/api', router);

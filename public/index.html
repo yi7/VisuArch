@@ -18,8 +18,10 @@
 
     <!-- ANGULAR CUSTOM -->
     <script src="js/controllers/MainCtrl.js"></script>
-    <script src="js/controllers/TaxiCtrl.js"></script>
-    <script src="js/services/TaxiService.js"></script>
+    <script src="js/controllers/TaxiMCtrl.js"></script>
+    <script src="js/services/TaxiMService.js"></script>
+    <script src="js/controllers/TaxiFCtrl.js"></script>
+    <script src="js/services/TaxiFService.js"></script>
     <script src="js/appRoutes.js"></script>
     <script src="js/app.js"></script>
 </head>
@@ -32,9 +34,12 @@
                 <a class="navbar-brand" href="/">VisuArch</a>
             </div>
 
-            <!-- LINK TO OUR PAGES. ANGULAR HANDLES THE ROUTING HERE -->
             <ul class="nav navbar-nav">
-                <li><a href="/taxi">Taxi Data</a></li>
+                <li><a href="/taximongo">TaxiMongo</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav">
+                <li><a href="/taxifire">TaxiFire</a></li>
             </ul>
         </nav>
 

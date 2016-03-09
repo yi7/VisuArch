@@ -8,9 +8,13 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
             templateUrl: 'views/home.html',
             controller: 'MainController'
         })
-        .when('/taxi', {
-            templateUrl: 'views/taxi.html',
-            controller: 'TaxiController'
+        .when('/taximongo', {
+            templateUrl: 'views/taxiM.html',
+            controller: 'TaxiMController'
+        })
+        .when('/taxifire', {
+            templateUrl: 'views/taxiF.html',
+            controller: 'TaxiFController'
         })
         .otherwise({
             redirectTo: '/'

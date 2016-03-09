@@ -4,7 +4,7 @@ var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
 var TaxiSchema   = new Schema({
-    passengerCount: { type: Number, required: true },
+    passenger_count: { type: Number, required: true },
     trip_distance: { type: Number, required: true },
     pickupCoordinates: {
         longitude: { type: Number, required: true },

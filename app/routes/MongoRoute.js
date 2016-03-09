@@ -3,29 +3,16 @@
 var Taxi = require('../models/taxi');
 
 module.exports = function(router) {
-
-    // middleware to use for all requests
-    router.use(function(req, res, next) {
-        // do logging
-        console.log('Something is happening.');
-        next(); // make sure we go to the next routes and don't stop here
-    });
-
-    // test route to make sure everything is working (accessed at GET http://localhost:3000/api)
-    router.get('/', function(req, res) {
-        res.json({ message: 'Welcome to our visudata api!' });
-    });
-
     // on routes that end in /taxis
     // ----------------------------------------------------
-    router.route('/taxis')
+    router.route('/mongotaxis')
 
         // create a taxi (accessed at POST http://localhost:3000/api/taxis)
         .post(function(req, res) {
             var taxi = new Taxi(); // create a new instance of the Taxi model
 
             // set the taxi data (comes from the request)
-            taxi.passengerCount = req.body.passengerCount;
+            taxi.passenger_count = req.body.passenger_count;
             taxi.trip_distance = req.body.trip_distance;
             taxi.pickupCoordinates.longitude = req.body.pickupCoordinates.longitude;
             taxi.pickupCoordinates.latitude = req.body.pickupCoordinates.latitude;
@@ -56,7 +43,7 @@ module.exports = function(router) {
 
     // on routes that end in /taxis/:taxi_id
     // ----------------------------------------------------
-    router.route('/taxis/:taxi_id')
+    router.route('/mongotaxis/:taxi_id')
 
         // get the taxi with that id (accessed at GET http://localhost:3000/api/taxis/:taxi_id)
         .get(function(req, res) {
@@ -76,7 +63,7 @@ module.exports = function(router) {
                     res.send(err);
 
                 // update the taxi data
-                taxi.passengerCount = req.body.passengerCount;
+                taxi.passenger_count = req.body.passenger_count;
                 taxi.trip_distance = req.body.trip_distance;
                 taxi.pickupCoordinates.longitude = req.body.taxi_id.pickupCoordinates.longitude;
                 taxi.pickupCoordinates.latitude = req.body.taxi_id.pickupCoordinates.latitude;
