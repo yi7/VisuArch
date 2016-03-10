@@ -9,8 +9,8 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
             controller: 'MainController'
         })
         .when('/taximongo', {
-            templateUrl: 'views/taxiM.html',
-            controller: 'TaxiMController'
+            templateUrl: 'views/taxiM.html'
+            //controller: 'TaxiMController'
         })
         .when('/taxifire', {
             templateUrl: 'views/taxiF.html',

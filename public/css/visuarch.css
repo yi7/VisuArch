@@ -1,10 +1,15 @@
-.chart {
-    width: 600px;
-    height: 700px;
+.piechart {
+    width: 400px;
+    height: 400px;
 }
 
-.chart text {
-  fill: black;
-  font: 1.5em sans-serif;
-  text-anchor: middle;
+.piechart text {
+    fill: black;
+    font: 1.5em sans-serif;
+    text-anchor: middle;
+}
+
+.liquidFillGaugeText {
+    font-family: Helvetica;
+    font-weight: bold;
 }

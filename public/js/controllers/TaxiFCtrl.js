@@ -6,7 +6,7 @@ angular.module('TaxiFCtrl', [])
         $scope.tagline = 'Data used to make charts below are stored in firebase';
 
         d3.select(".description").append("p").text("Number of passengers in cab");
-        var canvas = d3.select(".chart");
+        var canvas = d3.select(".piechart");
 
         TaxiFire.getAll().then(function(response) {
             var pCount = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0};
@@ -16,17 +16,16 @@ angular.module('TaxiFCtrl', [])
             }
 
             var data = [pCount[1], pCount[2], pCount[3], pCount[4], pCount[5], pCount[6]];
-            var r = 300;
 
             var color = d3.scale.ordinal()
                 .range(["red", "blue", "orange", "yellow", "green", "cyan"]);
 
             var group = canvas.append("g")
-                .attr("transform", "translate(300, 300)");
+                .attr("transform", "translate(200, 200)");
 
             var arc = d3.svg.arc()
                 .innerRadius(0)
-                .outerRadius(300);
+                .outerRadius(200);
 
             var pie = d3.layout.pie()
                 .value(function(d) { return d });
