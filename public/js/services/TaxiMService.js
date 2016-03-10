@@ -15,10 +15,10 @@ angular.module('TaxiMService', [])
             // call to DELETE a taxi
             delete: function(id) {
                 return $http.delete('/api/mongotaxis/' + id);
-            },
+            }
 
             // non api functions
-            
+
 
 
         }

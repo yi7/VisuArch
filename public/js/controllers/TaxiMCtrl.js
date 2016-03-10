@@ -1,7 +1,7 @@
 // public/js/controllers/TaxiCtrl.js
-angular.module('TaxiMCtrl', [])
-    .controller('TaxiMController', function($scope, $http, TaxiMongo) {
+var app = angular.module('TaxiMCtrl', []);
 
+app.controller('TaxiMController', function($scope, $http, TaxiMongo) {
         $scope.tagline = 'Data used to make charts below are stored in mongo';
 
         d3.select(".descriptionPie").append("p").text("Number of passengers in cab");
@@ -44,4 +44,24 @@ angular.module('TaxiMCtrl', [])
         });
 
         d3.select(".descriptionLiquid").append("p").text("$ of fairs");
+
 });
+
+/*app.directive('yokagauge', function() {
+    return {
+        restrict: 'E',
+        template: '<svg id="fillgauge1" width="97%" height="250%"></svg>',
+        link: function(scope, elem, attrs) {
+
+            var config1 = liquidFillGaugeDefaultSettings();
+            config1.circleColor = "#FF7777";
+            config1.textColor = "#FF4444";
+            config1.waveTextColor = "#FFAAAA";
+            config1.waveColor = "#FFDDDD";
+            config1.circleThickness = 0.2;
+            config1.textVertPosition = 0.2;
+            config1.waveAnimateTime = 1000;
+            var gauge1 = loadLiquidFillGauge("fillgauge1", 55, config1);
+        }
+    }
+});*/
