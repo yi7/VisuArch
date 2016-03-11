@@ -20,6 +20,9 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
             redirectTo: '/'
         });
 
-    $locationProvider.html5Mode(true);
+    $locationProvider.html5Mode({
+        enabled: true,
+        requireBase: false
+    });
 
 }]);
