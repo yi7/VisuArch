@@ -37,6 +37,7 @@ var port = process.env.PORT || 3000; // set our port
 var router = express.Router();
 require('./app/routes/MainRoute')(router);
 require('./app/routes/MongoRoute')(router);
+require('./app/routes/MongoRouteTiaa')(router);
 require('./app/routes/FireRoute')(router);
 
 // all our routes will be prefixed with /api
