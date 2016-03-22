@@ -17,9 +17,5 @@ angular.module('TaxiMService', [])
                 return $http.delete('/api/mongotaxis/' + id);
             }
 
-            // non api functions
-
-
-
         }
 }]);
