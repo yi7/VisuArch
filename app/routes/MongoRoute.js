@@ -33,13 +33,21 @@ module.exports = function(router) {
         // get all the taxis (accessed at GET http://localhost:3000/api/taxis)
         .get(function(req, res) {
             Taxi.find(function(err, taxis) {
-                if (err)
+                if(err)
                     res.send(err);
 
                 res.json(taxis);
             });
         });
 
+    router.route('/mongotaxis/query/:key')
+        .get(function(req, res) {
+            Taxi.find({}, req.params.key, function(err, taxi) {
+                if (err)
+                    res.send(err);
+                res.json(taxi);
+            });
+        });
 
     // on routes that end in /taxis/:taxi_id
     // ----------------------------------------------------
@@ -63,14 +71,14 @@ module.exports = function(router) {
                     res.send(err);
 
                 // update the taxi data
-                taxi.passenger_count = req.body.passenger_count;
-                taxi.trip_distance = req.body.trip_distance;
+                taxi.passenger_count = req.body.taxi_id.passenger_count;
+                taxi.trip_distance = req.body.taxi_id.trip_distance;
                 taxi.pickupCoordinates.longitude = req.body.taxi_id.pickupCoordinates.longitude;
                 taxi.pickupCoordinates.latitude = req.body.taxi_id.pickupCoordinates.latitude;
                 taxi.dropoffCoordinates.longitude = req.body.taxi_id.dropoffCoordinates.longitude;
                 taxi.dropoffCoordinates.latitude = req.body.taxi_id.dropoffCoordinates.latitude;
-                taxi.tip_amount = req.body.tip_amount;
-                taxi.total_amount = req.body.total_amount;
+                taxi.tip_amount = req.body.taxi_id.tip_amount;
+                taxi.total_amount = req.body.taxi_id.total_amount;
 
                 // save the taxi
                 taxi.save(function(err) {

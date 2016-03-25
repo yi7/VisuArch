@@ -4,14 +4,11 @@ var app = angular.module('TaxiMCtrl', []);
 app.controller('TaxiMController', function($scope, $http, TaxiMongo) {
         $scope.tagline = 'Data used to make charts below are stored in mongo';
 
-        TaxiMongo.getAll().then(function(response) {
-            var pCount = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0};
-
+        TaxiMongo.query('tip_amount').then(function(response) {
             var yesTip = 0;
             var noTip = 0;
 
             for( var i = 0; i < response.data.length; i++) {
-                pCount[response.data[i].passenger_count]++;
                 if(response.data[i].tip_amount != 0) {
                     yesTip++;
                 } else {
@@ -19,14 +16,32 @@ app.controller('TaxiMController', function($scope, $http, TaxiMongo) {
                 }
             }
 
-            var bardata = [pCount[1], pCount[2], pCount[3], pCount[4], pCount[5], pCount[6]];
-            var piedata = [yesTip, noTip];
-
-            makePieChart(piedata);
-            makeBarChart(bardata);
+            //console.log(response.data);
+            var yesPer = Math.round(yesTip / response.data.length * 100);
+            var config1 = liquidFillGaugeDefaultSettings();
+            config1.circleColor = "#FF7777";
+            config1.textColor = "#FF4444";
+            config1.waveTextColor = "#FFAAAA";
+            config1.waveColor = "#FFDDDD";
+            config1.circleThickness = 0.2;
+            config1.textVertPosition = 0.2;
+            config1.waveAnimateTime = 1000;
+            var gauge1 = loadLiquidFillGauge("fillgauge1", yesPer, config1);
         });
 
-        d3.select(".descriptionLiquid").append("p").text("Test Liquid Gauge");
+        TaxiMongo.query('passenger_count').then(function(response) {
+            var pCount = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0};
+
+            for( var i = 0; i < response.data.length; i++) {
+                pCount[response.data[i].passenger_count]++;
+            }
+
+            var bardata = [pCount[1], pCount[2], pCount[3], pCount[4], pCount[5], pCount[6]];
+            /*var piedata = [yesTip, noTip];
+
+            makePieChart(piedata);*/
+            makeBarChart(bardata);
+        });
 
 });
 
@@ -69,8 +84,6 @@ function makePieChart(data) {
 }
 
 function makeBarChart(data) {
-    d3.select(".descriptionBar").append("p").text("Number of passengers in cab");
-
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = 800 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
