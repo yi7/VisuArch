@@ -15,6 +15,10 @@ angular.module('TaxiFService', [])
             // call to DELETE a taxi
             delete : function(id) {
                 return $http.delete('/api/firetaxis/' + id);
+            },
+
+            query: function(key) {
+                return $http.get('/api/mongotaxis/query/' + key);
             }
         }
 }]);

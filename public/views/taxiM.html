@@ -1,19 +1,25 @@
 <div class="jumbotron">
     <h3>Visualization with Mongo</h3>
     <p>{{ tagline }}</p>
-    <h3>Data size: 100 cabs</h3>
+    <p>Data size: 100 cabs</p>
 
     <br/><br/>
+
+
+    <!--
     <div class="descriptionPie"></div>
     <svg class="piechart"></svg>
+    <svg id="fillgauge1" width="19%" height="200%"></div>
+    -->
+    <p>Percentage of people who tip</p>
+    <svg id="fillgauge1" width="19%" height="200%"></svg>
 
-    <div class="descriptionBar"></div>
+    <br/><br/>
+
+    <p>Frequency of Passenger in cab</p>
     <svg class="barchart"></svg>
 
-    <div class="descriptionLiquid"></div>
-
     <!-- testing purpose
-
     <div ng-repeat="taxi in taxis">
         <h4>PC: {{taxi.passenger_count}}</h4>
     </div>

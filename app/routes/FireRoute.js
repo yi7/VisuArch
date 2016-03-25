@@ -2,7 +2,7 @@ var firebase = require('firebase');
 var url = 'https://blinding-heat-7423.firebaseio.com/';
 
 module.exports = function(router) {
-    
+
     router.route('/firetaxis')
 
         .post(function(req, res) {
@@ -41,6 +41,16 @@ module.exports = function(router) {
                 res.json(snap.val());
             });
         });
+
+    /*router.route('/mongotaxis/query/:key')
+        var ref = new Firebase(url);
+        .get(function(req, res) {
+            Taxi.find({}, req.params.key, function(err, taxi) {
+                if (err)
+                    res.send(err);
+                res.json(taxi);
+            });
+        });*/
 
     router.route('/firetaxis/:taxi_id')
 

@@ -33,13 +33,21 @@ module.exports = function(router) {
         // get all the taxis (accessed at GET http://localhost:3000/api/taxis)
         .get(function(req, res) {
             Taxi.find(function(err, taxis) {
-                if (err)
+                if(err)
                     res.send(err);
 
                 res.json(taxis);
             });
         });
 
+    router.route('/mongotaxis/query/:key')
+        .get(function(req, res) {
+            Taxi.find({}, req.params.key, function(err, taxi) {
+                if (err)
+                    res.send(err);
+                res.json(taxi);
+            });
+        });
 
     // on routes that end in /taxis/:taxi_id
     // ----------------------------------------------------
