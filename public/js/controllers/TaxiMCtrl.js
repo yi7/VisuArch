@@ -42,7 +42,6 @@ app.controller('TaxiMController', function($scope, $http, TaxiMongo) {
             makePieChart(piedata);*/
             makeBarChart(bardata);
         });
-
 });
 
 function makePieChart(data) {

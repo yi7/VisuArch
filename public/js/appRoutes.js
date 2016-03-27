@@ -16,6 +16,10 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
             templateUrl: 'views/taxiF.html',
             controller: 'TaxiFController'
         })
+        .when('/tiaamongo', {
+            templateUrl: 'views/tiaaM.html',
+            controller: 'TiaaMController'
+        })
         .otherwise({
             redirectTo: '/'
         });

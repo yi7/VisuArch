@@ -38,6 +38,15 @@ module.exports = function(router) {
             });
         });
 
+    router.route('/mongometrics/query/:key')
+        .get(function(req, res) {
+            Metric.find({}, req.params.key, function(err, metrics) {
+                if (err)
+                    res.send(err);
+                res.json(metrics);
+            });
+        });
+
     router.route('/mongometrics/:tiaa_id')
 
         .get(function(req, res) {

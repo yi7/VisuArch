@@ -42,16 +42,6 @@ module.exports = function(router) {
             });
         });
 
-    /*router.route('/mongotaxis/query/:key')
-        var ref = new Firebase(url);
-        .get(function(req, res) {
-            Taxi.find({}, req.params.key, function(err, taxi) {
-                if (err)
-                    res.send(err);
-                res.json(taxi);
-            });
-        });*/
-
     router.route('/firetaxis/:taxi_id')
 
         .get(function(req, res) {
