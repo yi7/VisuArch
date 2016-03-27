@@ -31,12 +31,18 @@ app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
                 data_list.push(data);
             }
 
+            d3.select('svg').remove(); // remove old svg chart
+
             if(data_list.length == 0) {
+                d3.select('#rectAreaChart')
+                    .append('p')
+                    .text('no date available to chart');
                 return;
+            } else {
+                d3.select('p').remove();
             }
 
-            d3.select('svg').remove();
-            d3.select('#rectAreaChart')
+            d3.select('#rectAreaChart') // create a new one to draw chart to
                 .append('svg')
                 .attr('id', 'rectangularareachart1')
                 .attr('width', '100%')
