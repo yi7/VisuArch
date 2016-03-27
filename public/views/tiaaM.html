@@ -1,19 +1,11 @@
 <div class="jumbotron">
-    <!--
-    <div align="center">
-        <div align="left" style="width: 810px;">
-            <svg id="rectangularareachart1" width="400" height="240"></svg>
-            <svg id="rectangularareachart2" width="400" height="240"></svg>
-        </div>
-        <div align="left" style="width: 810px;">
-            <svg id="rectangularareachart3" width="400" height="240"></svg>
-            <svg id="rectangularareachart4" width="250" height="240"></svg>
-        </div>
-    </div>
-    -->
-    <div align="center">
-    <div align="left">
+
+    <label for="dateInput" style="position: inherit">Pick a date:
+    <input type="date" id="dateInput" ng-model="date" ng-change="change(date)" min="2015-07-27" max="2015-07-31"/>
+    </label>
+    
+    <br/><br/>
+    <div id="rectAreaChart">
         <svg id="rectangularareachart1" width="100%" height="250px"></svg>
     </div>
-</div>
 </div>
