@@ -7,6 +7,8 @@ angular.module('visuarchApp',
         'TaxiMCtrl',
         'TaxiMService',
         'TaxiFCtrl',
-        'TaxiFService'
+        'TaxiFService',
+        'TiaaMCtrl',
+        'TiaaMService'
     ]
 );
