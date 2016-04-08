@@ -38,13 +38,21 @@ module.exports = function(router) {
             });
         });
 
-    router.route('/mongometrics/query/:key')
+    router.route('/mongometrics/query/:key/:select')
         .get(function(req, res) {
-            Metric.find({}, req.params.key, function(err, metrics) {
-                if (err)
-                    res.send(err);
-                res.json(metrics);
-            });
+            if(req.params.key == ' ') {
+                Metric.find({}, req.params.select, function(err, metrics) {
+                    if (err)
+                        res.send(err);
+                    res.json(metrics);
+                });
+            } else {
+                Metric.find({'TRN': req.params.key}, req.params.select, function(err, metrics) {
+                    if (err)
+                        res.send(err);
+                    res.json(metrics);
+                });
+            }
         });
 
     router.route('/mongometrics/:tiaa_id')

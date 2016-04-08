@@ -17,8 +17,8 @@ angular.module('TiaaMService', [])
                 return $http.delete('/api/mongometrics/' + id);
             },
 
-            query: function(key) {
-                return $http.get('/api/mongometrics/query/' + key);
+            query: function(key, select) {
+                return $http.get('/api/mongometrics/query/' + key + '/' + select);
             }
         }
 }]);

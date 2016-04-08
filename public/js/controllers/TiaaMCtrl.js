@@ -56,5 +56,8 @@ app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
         });
     };
 
+    TiaaMongo.query(1753469,'TRN TRADE_DATE CASH').then(function(response) {
+        console.log(response.data);
+    });
 
 });
