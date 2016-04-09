@@ -1,3 +1,15 @@
+/*changes the size of the modal*/
+/*body .modal-content {
+    width: 500px;
+}*/
+svg {
+    cursor: pointer;
+}
+
+.bottom {
+    border-bottom: 1px solid #ccc;
+}
+
 .piechart {
     width: 400px;
     height: 400px;
