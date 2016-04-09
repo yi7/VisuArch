@@ -23,15 +23,15 @@
     <div class="row" style="background-color: #34a3d6;">
         <div class="col-md-5" style="padding-left: 20px;">
             <h2>
-                <font color="white" style="padding-right: 15px;">${{total_cash}}</font>
+                <font color="white" style="padding-right: 10px;">${{total_cash}}</font>
                 <font color="white" size="3">Cash</font>
             </h2>
             <h2>
-                <font color="white" style="padding-right: 15px;">${{average_cash}}</font>
+                <font color="white" style="padding-right: 10px;">${{average_cash}}</font>
                 <font color="white" size="3">Average Transaction</font>
             </h2>
             <h2>
-                <font color="white" style="padding-right: 15px;">{{total_transaction}}</font>
+                <font color="white" style="padding-right: 10px;">{{total_transaction}}</font>
                 <font color="white" size="3">Transactions</font>
             </h2>
         </div>
@@ -45,11 +45,15 @@
             <div style="background-color: #5eafd7;">
                 <font size="5" color="white" style="padding: 5px;">Categories</font>
                 <br/><br/>
-                <div style="padding-left: 5px;">
+                <div id="gauge_display" style="padding-left: 5px;">
                     <svg ng-click="select('fillgauge1')" id="fillgauge1" width="15%" height="80%"></svg>
                     <svg ng-click="select('fillgauge2')" id="fillgauge2" width="15%" height="80%"></svg>
                     <svg ng-click="select('fillgauge3')" id="fillgauge3" width="15%" height="80%"></svg>
                     <svg ng-click="select('fillgauge4')" id="fillgauge4" width="15%" height="80%"></svg>
+                </div>
+                <br/>
+                <div id="infoBox" ng-show="display">
+                    <h1>Hello</h1>
                 </div>
             </div>
         </div>

@@ -56,9 +56,7 @@ app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
         });
     };*/
 
-    /*TiaaMongo.query(1753469,'TRN TRADE_DATE CASH').then(function(response) {
-        console.log(response.data);
-    });*/
+    // Modal Popup. User enters a TRN (ex.2055745) in the searchbox
     $scope.showModal = false;
     $scope.search = function() {
         $scope.showModal = !$scope.showModal;
@@ -71,17 +69,30 @@ app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
         });
     }
 
+    // Overview Information
     TiaaMongo.query(' ','CASH').then(function(response) {
         var total = 0;
-        var transaction = response.data.length;
-        for(var i = 0; i < transaction; i++) {
+        var transactions = response.data.length;
+        for(var i = 0; i < transactions; i++) {
             total += response.data[i].CASH;
         }
-        var average = total / transaction;
+        var average = total / transactions;
 
         $scope.total_cash = Math.round(total).toLocaleString();
         $scope.average_cash = Math.round(average).toLocaleString();
-        $scope.total_transaction = transaction;
+        $scope.total_transaction = transactions;
+    });
+
+    // Category Information. Creates Liquid Gauge per Category
+    TiaaMongo.query(' ','CATEGORY').then(function(response) {
+        var transactions = response.data.length;
+        result = {};
+        for(var i = 0; i < transactions; i++) {
+            if(!result[response.data[i].CATEGORY]) {
+                result[response.data[i].CATEGORY] = 0;
+            }
+            result[response.data[i].CATEGORY]++;
+        }
 
         var config1 = liquidFillGaugeDefaultSettings();
         config1.circleThickness = 0.2;
@@ -89,22 +100,41 @@ app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
         config1.textColor = "#ffffff";
         config1.waveTextColor = "#ffffff";
         config1.waveColor = "#178bca";
+        config1.waveHeight = 0.15;
         config1.waveAnimateTime = 1000;
-        var gauge1 = loadLiquidFillGauge("fillgauge1", 20, config1);
-        var gauge2 = loadLiquidFillGauge("fillgauge2", 40, config1);
-        var gauge3 = loadLiquidFillGauge("fillgauge3", 60, config1);
-        var gauge4 = loadLiquidFillGauge("fillgauge4", 80, config1);
+
+        var i = 1;
+        for(var category in result) {
+            if(category == "") {
+                d3.select("#fillgauge" + i)
+                    .append("div")
+                    .attr("id", "none");
+            } else {
+                d3.select("#fillgauge" + i)
+                    .append("div")
+                    .attr("id", category);
+            }
+
+            var percentage = Math.round(result[category] / transactions * 100);
+            loadLiquidFillGauge("fillgauge" + i++, percentage, config1);
+        }
     });
 
+    // Liquid Guage Selection. Highlights the selected liquid gauge
+    $scope.display = false;
     $scope.select = function(id) {
-        d3.selectAll("svg").select('g').select('path').style("fill", "#178bca");
-        d3.selectAll("svg").select('g').select('g').select('circle').style("fill", "#178bca");
+        d3.selectAll("svg").select("g").select("path").style("fill", "#178bca");
+        d3.selectAll("svg").select("g").select("g").select("circle").style("fill", "#178bca");
 
-        d3.select('#' + id).select('g').select('path').style("fill", "#f5a623");
-        d3.select('#' + id).select('g').select('g').select('circle').style("fill", "#f5a623");
+        d3.select("#" + id).select("g").select("path").style("fill", "#f5a623");
+        d3.select("#" + id).select("g").select("g").select("circle").style("fill", "#f5a623");
+
+        $scope.display = true;
+        var category = d3.select("#" + id).select("div").attr("id");
     }
 });
 
+// Directive for the modal.
 app.directive('modal', function () {
     return {
         template:   '<div class="modal fade">' +
