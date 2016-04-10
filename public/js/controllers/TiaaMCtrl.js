@@ -131,6 +131,11 @@ app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
 
         $scope.display = true;
         var category = d3.select("#" + id).select("div").attr("id");
+        if(category == "none") {
+            $scope.category = "No Category";
+        } else {
+            $scope.category = category;
+        }
     }
 });
 

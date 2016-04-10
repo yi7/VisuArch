@@ -15,7 +15,7 @@
             <div class="col-md-2" style="padding-top: 6px; padding-left: 35px;"><font size="4" color="3c7dae">Overview</font></div>
             <div class="col-md-4">
                 <font size="4" style="float: left; padding-right: 20px; padding-top: 6px;">By Transaction Code</font>
-                <input ng-model="TRN" type="text" class="form-control" style="width: 40%;" placeholder="Search TRN...">
+                <input ng-model="TRN" type="text" class="form-control" style="width: 40%;" placeholder="ex. 2055745">
             </div>
         </div>
     </form>
@@ -40,7 +40,7 @@
         </div>
     </div>
 
-    <div class="row" style="background-color: #34a3d6;">
+    <div class="row" style="background-color: #34a3d6; padding-bottom: 15px;">
         <div class="col-md-12">
             <div style="background-color: #5eafd7;">
                 <font size="5" color="white" style="padding: 5px;">Categories</font>
@@ -51,9 +51,36 @@
                     <svg ng-click="select('fillgauge3')" id="fillgauge3" width="15%" height="80%"></svg>
                     <svg ng-click="select('fillgauge4')" id="fillgauge4" width="15%" height="80%"></svg>
                 </div>
-                <br/>
-                <div id="infoBox" ng-show="display">
-                    <h1>Hello</h1>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div style="background-color: #5eafd7;">
+                <div id="infoBox" ng-show="display" style="background-color: #f5a623;">
+                    <table style="width: 100%">
+                        <tr style="background-color: #f6b345;">
+                            <td colspan="2" style="padding: 10px; text-align: center;"><font color="white">{{category}}</font></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 2px;"><font color="white">Total:</font></td>
+                            <td style="padding: 2px;"><font color="white">----</font></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 2px;"><font color="white">Average:</font></td>
+                            <td style="padding: 2px;"><font color="white">----</font></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 2px;"><font color="white">Maximum:</font></td>
+                            <td style="padding: 2px;"><font color="white">----</font></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 2px;"><font color="white">Minimum:</font></td>
+                            <td style="padding: 2px;"><font color="white">----</font></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 2px;"><font color="white">Transaction:</font></td>
+                            <td style="padding: 2px;"><font color="white">----</font></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
