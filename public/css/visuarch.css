@@ -1,0 +1,11 @@
+body {
+    font-family: 'Merriweather', serif;
+}
+
+svg {
+    cursor: pointer;
+}
+
+.bottom {
+    border-bottom: 1px solid #ccc;
+}
