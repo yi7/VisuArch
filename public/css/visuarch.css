@@ -1,53 +1,11 @@
-/*changes the size of the modal*/
-/*body .modal-content {
-    width: 500px;
-}*/
+body {
+    font-family: 'Merriweather', serif;
+}
+
 svg {
     cursor: pointer;
 }
 
 .bottom {
     border-bottom: 1px solid #ccc;
-}
-
-.piechart {
-    width: 400px;
-    height: 400px;
-}
-
-.piechart text {
-    fill: black;
-    font: 1.5em sans-serif;
-    text-anchor: middle;
-}
-
-.liquidFillGaugeText {
-    font-family: Helvetica;
-    font-weight: bold;
-}
-
-.axis text {
-    font: 10px sans-serif;
-}
-
-.axis path,
-.axis line {
-    fill: none;
-    stroke: #000;
-    shape-rendering: crispEdges;
-}
-
-.bar {
-    fill: steelblue;
-    fill-opacity: .9;
-}
-
-.x.axis path {
-    display: none;
-}
-
-label {
-    position: absolute;
-    top: 10px;
-    right: 10px;
 }

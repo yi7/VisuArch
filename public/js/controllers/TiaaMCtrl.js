@@ -1,4 +1,3 @@
-// public/js/controllers/TaxiCtrl.js
 var app = angular.module('TiaaMCtrl', []);
 
 app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
@@ -128,6 +127,7 @@ app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
             $scope.trans = transactions;
 
 
+            // Rect Area Chart for selected Liquid Gauge
             d3.select("#rect_display").selectAll("svg").remove();
 
             var config1 = rectangularAreaChartDefaultSettings();
@@ -184,8 +184,6 @@ app.directive('modal', function () {
         replace:true,
         scope:true,
         link: function postLink(scope, element, attrs) {
-            //scope.title = attrs.title;
-
             scope.$watch(attrs.visible, function(value){
                 if(value == true)
                     $(element).modal('show');
