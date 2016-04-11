@@ -119,7 +119,7 @@ app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
                 result[response.data[i].SUB_CATEGORY]++;
             }
             var average = (total / transactions).toFixed(2);
-            
+
             $scope.total = total.toLocaleString();
             $scope.average = parseFloat(average).toLocaleString();
             $scope.max = max.toLocaleString().toLocaleString();
@@ -135,6 +135,7 @@ app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
             config1.expandFromTop = true;
             config1.colorScale = d3.scale.category20b();
             config1.displayValueText = false;
+            config1.maxValue = 100;
 
             var i = 1;
             for(var category in result) {
