@@ -118,12 +118,12 @@ app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
                 }
                 result[response.data[i].SUB_CATEGORY]++;
             }
-            var average = total / transactions;
-
-            $scope.total = total;
-            $scope.average = average.toFixed(2);
-            $scope.max = max;
-            $scope.min = min;
+            var average = (total / transactions).toFixed(2);
+            
+            $scope.total = total.toLocaleString();
+            $scope.average = parseFloat(average).toLocaleString();
+            $scope.max = max.toLocaleString().toLocaleString();
+            $scope.min = min.toLocaleString();
             $scope.trans = transactions;
 
 
