@@ -2,7 +2,6 @@ var Metric = require('../models/metric');
 
 module.exports = function(router) {
     router.route('/mongometrics')
-
         .post(function(req, res) {
             var metric = new Metric();
 
@@ -70,7 +69,6 @@ module.exports = function(router) {
         });
 
     router.route('/mongometrics/:tiaa_id')
-
         .get(function(req, res) {
             Metric.findById(req.params.tiaa_id, function(err, metric) {
                 if (err)

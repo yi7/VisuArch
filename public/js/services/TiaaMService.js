@@ -1,7 +1,5 @@
 angular.module('TiaaMService', [])
-
     .factory('TiaaMongo', ['$http', function($http) {
-
         return {
             getAll: function() {
                 return $http.get('/api/mongometrics');
