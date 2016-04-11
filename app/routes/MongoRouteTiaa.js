@@ -38,20 +38,34 @@ module.exports = function(router) {
             });
         });
 
-    router.route('/mongometrics/query/:key/:select')
+    router.route('/mongometrics/query/:data/:key/:select')
         .get(function(req, res) {
-            if(req.params.key == ' ') {
+            if(req.params.data == ' ') {
                 Metric.find({}, req.params.select, function(err, metrics) {
                     if (err)
                         res.send(err);
                     res.json(metrics);
                 });
-            } else {
+            } else if(req.params.data == 'TRN') {
                 Metric.find({'TRN': req.params.key}, req.params.select, function(err, metrics) {
                     if (err)
                         res.send(err);
                     res.json(metrics);
                 });
+            } else if(req.params.data == 'CATEGORY') {
+                if(req.params.key == ' ') {
+                    Metric.find({'CATEGORY': ""}, req.params.select, function(err, metrics) {
+                        if (err)
+                            res.send(err);
+                        res.json(metrics);
+                    });
+                } else {
+                    Metric.find({'CATEGORY': req.params.key}, req.params.select, function(err, metrics) {
+                        if (err)
+                            res.send(err);
+                        res.json(metrics);
+                    });
+                }
             }
         });
 

@@ -8,7 +8,7 @@ app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
         $scope.showModal = !$scope.showModal;
         $scope.title = $scope.TRN;
         $scope.transactions = [];
-        TiaaMongo.query($scope.TRN,'TRN TRADE_DATE CATEGORY SUB_CATEGORY CASH').then(function(response) {
+        TiaaMongo.query('TRN', $scope.TRN, 'TRN TRADE_DATE CATEGORY SUB_CATEGORY CASH').then(function(response) {
             for(var i = 0; i < response.data.length; i++) {
                 $scope.transactions.push(response.data[i]);
             }
@@ -16,7 +16,7 @@ app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
     }
 
     // Overview Information
-    TiaaMongo.query(' ','CASH').then(function(response) {
+    TiaaMongo.query(' ', ' ', 'CASH').then(function(response) {
         var total = 0;
         var transactions = response.data.length;
         for(var i = 0; i < transactions; i++) {
@@ -30,7 +30,7 @@ app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
     });
 
     // Category Information. Creates Liquid Gauge per Category
-    TiaaMongo.query(' ','CATEGORY').then(function(response) {
+    TiaaMongo.query(' ', ' ', 'CATEGORY').then(function(response) {
         var transactions = response.data.length;
         result = {};
         for(var i = 0; i < transactions; i++) {
@@ -69,8 +69,22 @@ app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
     // Liquid Guage Selection. Highlights the selected liquid gauge
     $scope.display = false;
     $scope.select = function(id) {
-        d3.selectAll("svg").select("g").select("path").style("fill", "#178bca");
-        d3.selectAll("svg").select("g").select("g").select("circle").style("fill", "#178bca");
+        if(d3.select("#" + id).select("div").empty()) {
+            return;
+        }
+
+        d3.select("#gauge_display")
+            .selectAll("svg")
+            .select("g")
+            .select("path")
+            .style("fill", "#178bca");
+
+        d3.select("#gauge_display")
+            .selectAll("svg")
+            .select("g")
+            .select("g")
+            .select("circle")
+            .style("fill", "#178bca");
 
         d3.select("#" + id).select("g").select("path").style("fill", "#f5a623");
         d3.select("#" + id).select("g").select("g").select("circle").style("fill", "#f5a623");
@@ -79,9 +93,73 @@ app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
         var category = d3.select("#" + id).select("div").attr("id");
         if(category == "none") {
             $scope.category = "No Category";
+            category = ' ';
         } else {
             $scope.category = category;
         }
+
+        // Info window for selected liquid gauge
+        TiaaMongo.query('CATEGORY', category, 'CATEGORY SUB_CATEGORY CASH').then(function(response) {
+            var total = 0;
+            var transactions = response.data.length;
+            var min = response.data[0].CASH;
+            var max = response.data[0].CASH;
+            result = {};
+            for(var i = 0; i < transactions; i++) {
+                total += response.data[i].CASH;
+                if(response.data[i].CASH > max) {
+                    max = response.data[i].CASH;
+                }
+                if(response.data[i].CASH < min) {
+                    min = response.data[i].CASH;
+                }
+
+                if(!result[response.data[i].SUB_CATEGORY]) {
+                    result[response.data[i].SUB_CATEGORY] = 0;
+                }
+                result[response.data[i].SUB_CATEGORY]++;
+            }
+            var average = total / transactions;
+
+            $scope.total = total;
+            $scope.average = average.toFixed(2);
+            $scope.max = max;
+            $scope.min = min;
+            $scope.trans = transactions;
+
+
+            d3.select("#rect_display").selectAll("svg").remove();
+
+            var config1 = rectangularAreaChartDefaultSettings();
+            config1.expandFromLeft = true;
+            config1.expandFromTop = true;
+            config1.colorScale = d3.scale.category20b();
+            config1.displayValueText = false;
+
+            var i = 1;
+            for(var category in result) {
+                if(i % 2 == 0) {
+                    config1.colorsScale = d3.scale.ordinal().range(["#235676"]);
+                } else {
+                    config1.colorsScale = d3.scale.ordinal().range(["#37779d"]);
+                }
+
+                var data = [];
+                var percent = Math.round(result[category] / transactions * 100).toString();
+                var obj = {
+                    value: percent,
+                    label: category + ": " + percent + "%"
+                }
+                data.push(obj);
+
+                d3.select("#rect_display")
+                    .append("svg")
+                    .attr("id", "rectChart" + i)
+                    .attr("width", "100%")
+                    .attr("height", "18px")
+                loadRectangularAreaChart("rectChart" + i++, data, config1);
+            }
+        });
     }
 });
 

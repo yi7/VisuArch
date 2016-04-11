@@ -26,51 +26,59 @@
             </h2>
         </div>
         <div class="col-md-7">
-
+            <!-- line chart here -->
         </div>
     </div>
 
-    <div class="row" style="background-color: #34a3d6; padding-bottom: 15px;">
+    <div class="row row-eq-height" style="background-color: #34a3d6; padding-bottom: 15px;">
         <div class="col-md-12">
             <div style="background-color: #5eafd7;">
-                <font size="5" color="white" style="padding: 5px;">Categories</font>
+                <font size="5" color="white" style="padding: 10px;">Categories</font>
                 <br/><br/>
-                <div id="gauge_display" style="padding-left: 5px;">
+                <div id="gauge_display" style="padding-left: 10px;">
                     <svg ng-click="select('fillgauge1')" id="fillgauge1" width="15%" height="80%"></svg>
                     <svg ng-click="select('fillgauge2')" id="fillgauge2" width="15%" height="80%"></svg>
                     <svg ng-click="select('fillgauge3')" id="fillgauge3" width="15%" height="80%"></svg>
                     <svg ng-click="select('fillgauge4')" id="fillgauge4" width="15%" height="80%"></svg>
+                    <svg ng-click="select('fillgauge5')" id="fillgauge5" width="15%" height="80%"></svg>
+                    <svg ng-click="select('fillgauge6')" id="fillgauge6" width="15%" height="80%"></svg>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3" style="padding-right: 0px;">
             <div style="background-color: #5eafd7;">
-                <div id="infoBox" ng-show="display" style="background-color: #f5a623;">
-                    <table style="width: 100%">
+                <div id="infoBox" ng-show="display" style="padding: 10px;">
+                    <table style="width: 100%; background-color: #f5a623;">
                         <tr style="background-color: #f6b345;">
                             <td colspan="2" style="padding: 10px; text-align: center;"><font color="white">{{category}}</font></td>
                         </tr>
                         <tr>
-                            <td style="padding: 2px;"><font color="white">Total:</font></td>
-                            <td style="padding: 2px;"><font color="white">----</font></td>
+                            <td style="padding: 9px;"><font color="white">Total:</font></td>
+                            <td style="padding: 9px;"><font color="white">${{total}}</font></td>
                         </tr>
                         <tr>
-                            <td style="padding: 2px;"><font color="white">Average:</font></td>
-                            <td style="padding: 2px;"><font color="white">----</font></td>
+                            <td style="padding: 9px;"><font color="white">Average:</font></td>
+                            <td style="padding: 9px;"><font color="white">${{average}}</font></td>
                         </tr>
                         <tr>
-                            <td style="padding: 2px;"><font color="white">Maximum:</font></td>
-                            <td style="padding: 2px;"><font color="white">----</font></td>
+                            <td style="padding: 9px;"><font color="white">Maximum:</font></td>
+                            <td style="padding: 9px;"><font color="white">${{max}}</font></td>
                         </tr>
                         <tr>
-                            <td style="padding: 2px;"><font color="white">Minimum:</font></td>
-                            <td style="padding: 2px;"><font color="white">----</font></td>
+                            <td style="padding: 9px;"><font color="white">Minimum:</font></td>
+                            <td style="padding: 9px;"><font color="white">${{min}}</font></td>
                         </tr>
                         <tr>
-                            <td style="padding: 2px;"><font color="white">Transaction:</font></td>
-                            <td style="padding: 2px;"><font color="white">----</font></td>
+                            <td style="padding: 9px;"><font color="white">Transaction:</font></td>
+                            <td style="padding: 9px;"><font color="white">{{trans}}</font></td>
                         </tr>
                     </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9" ng-show="display" style="padding-left: 0px;">
+            <div style="background-color: #5eafd7;">
+                <div id="rect_display" style="padding: 10px;">
                 </div>
             </div>
         </div>
@@ -100,6 +108,5 @@
                 <br/>
             </li>
         </ul>
-
     </modal>
 </div>
