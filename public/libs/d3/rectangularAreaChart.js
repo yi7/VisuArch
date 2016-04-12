@@ -60,7 +60,8 @@ function loadRectangularAreaChart(elementId, data, settings){
     var height = parseInt(svg.style("height"));
 
     // Scales for the height and width of the boxes.
-    var sizeScaleWidth = d3.scale.sqrt().range([0, width]).domain([0, dataMax]);
+    // var sizeScaleWidth = d3.scale.sqrt().range([0, width]).domain([0, dataMax]);
+    var sizeScaleWidth = d3.scale.linear().range([0, width]).domain([0, dataMax]); // yoka mod
     var sizeScaleHeight = d3.scale.sqrt().range([0, height]).domain([0, dataMax]);
 
     var line = d3.svg.line()
@@ -75,7 +76,9 @@ function loadRectangularAreaChart(elementId, data, settings){
             if(settings.animate) {
                 var x = settings.expandFromLeft ? sizeScaleWidth(d.value) * -1 : width;
                 var y = settings.expandFromTop ? sizeScaleHeight(d.value) * -1 : height;
-                return "translate(" + x + "," + y + ")";
+                // return "translate(" + x + "," + y + ")";
+                //console.log(sizeScaleWidth(d.value) + ', ' + x);
+                return "translate(" + x + "," + -18 + ")"; // yoka mod
             } else {
                 var x = settings.expandFromLeft? 0 : width - sizeScaleWidth(d.value);
                 var y = settings.expandFromTop? 0 : height - sizeScaleHeight(d.value);
@@ -90,13 +93,16 @@ function loadRectangularAreaChart(elementId, data, settings){
         .append("clipPath")
         .attr("id", function(d,i) { return elementId + "ClipPath" + i; })
         .append("rect")
-        .attr("width", function(d) { return sizeScaleWidth(d.value); })
-        .attr("height", function(d) { return sizeScaleHeight(d.value); });
+        //.attr("width", function(d) { return sizeScaleWidth(d.value); })
+        .attr("width", "752") // yoka mod
+        .attr("height", "18"); // yoka mod
+        // .attr("height", function(d) { return sizeScaleHeight(d.value); });
 
     // The box.
     boxGroup.append("rect")
         .attr("width", function(d) { return sizeScaleWidth(d.value); })
-        .attr("height", function(d) { return sizeScaleHeight(d.value); })
+        // .attr("height", function(d) { return sizeScaleHeight(d.value); })
+        .attr("height", "18") // yoka mod
         .style("fill", function(d) { return settings.colorsScale(d.label); })
         .append("title")
         .text(function(d) { return d.label + " (" + valueFormatter(d) + ")"; });
@@ -125,12 +131,16 @@ function loadRectangularAreaChart(elementId, data, settings){
                 if(settings.expandFromLeft){
                     textX1 = settings.textPadding.left;
                     textX2 = sizeScaleWidth(d.value) * 2 + settings.textPadding.left;
+                    if(textX2 < 55) {
+                        textX2 = 55;
+                    } // yoka mod
                 } else {
                     textX1 = sizeScaleWidth(d.value) * -1 - settings.textPadding.right;
                     textX2 = sizeScaleWidth(d.value) - settings.textPadding.right;
                 }
             }
-            textY = settings.expandFromTop? sizeScaleHeight(d.value) - settings.textPadding.bottom - textHeight/4 : textHeight + settings.textPadding.top;
+            // textY = settings.expandFromTop? sizeScaleHeight(d.value) - settings.textPadding.bottom - textHeight/4 : textHeight + settings.textPadding.top;
+            textY = 14; // yoka mod
             return line([{x: textX1, y: textY}, {x: textX2, y: textY}]);
         });
 
