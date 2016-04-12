@@ -61,6 +61,9 @@ app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
             }
 
             var percentage = Math.round(result[category] / transactions * 100);
+            if(percentage == 0) {
+                percentage = 1;
+            }
             loadLiquidFillGauge("fillgauge" + i++, percentage, config1);
         }
     });
@@ -118,12 +121,12 @@ app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
                 }
                 result[response.data[i].SUB_CATEGORY]++;
             }
-            var average = total / transactions;
+            var average = (total / transactions).toFixed(2);
 
-            $scope.total = total;
-            $scope.average = average.toFixed(2);
-            $scope.max = max;
-            $scope.min = min;
+            $scope.total = total.toLocaleString();
+            $scope.average = parseFloat(average).toLocaleString();
+            $scope.max = max.toLocaleString().toLocaleString();
+            $scope.min = min.toLocaleString();
             $scope.trans = transactions;
 
 
@@ -135,14 +138,11 @@ app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
             config1.expandFromTop = true;
             config1.colorScale = d3.scale.category20b();
             config1.displayValueText = false;
+            config1.maxValue = 100;
 
             var i = 1;
             for(var category in result) {
-                if(i % 2 == 0) {
-                    config1.colorsScale = d3.scale.ordinal().range(["#235676"]);
-                } else {
-                    config1.colorsScale = d3.scale.ordinal().range(["#37779d"]);
-                }
+                config1.colorsScale = d3.scale.ordinal().range(["#37779d", "#235676"]);
 
                 var data = [];
                 var percent = Math.round(result[category] / transactions * 100).toString();
@@ -150,7 +150,11 @@ app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
                     value: percent,
                     label: category + ": " + percent + "%"
                 }
+                var obj2 = {
+                    value: "100"
+                }
                 data.push(obj);
+                data.push(obj2);
 
                 d3.select("#rect_display")
                     .append("svg")
@@ -159,6 +163,12 @@ app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
                     .attr("height", "18px")
                 loadRectangularAreaChart("rectChart" + i++, data, config1);
             }
+
+            /*d3.select("#rect_display")
+                .selectAll("svg")
+                .select("g")
+                .select("path")
+                .attr("d", "M3,14L752,14");*/
         });
     }
 });
