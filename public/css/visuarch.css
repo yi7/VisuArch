@@ -1,8 +1,4 @@
-body {
-    font-family: 'Merriweather', serif;
-}
-
-svg {
+#gauge_display svg {
     cursor: pointer;
 }
 

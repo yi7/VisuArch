@@ -61,6 +61,9 @@ app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
             }
 
             var percentage = Math.round(result[category] / transactions * 100);
+            if(percentage == 0) {
+                percentage = 1;
+            }
             loadLiquidFillGauge("fillgauge" + i++, percentage, config1);
         }
     });
@@ -139,11 +142,7 @@ app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
 
             var i = 1;
             for(var category in result) {
-                if(i % 2 == 0) {
-                    config1.colorsScale = d3.scale.ordinal().range(["#235676"]);
-                } else {
-                    config1.colorsScale = d3.scale.ordinal().range(["#37779d"]);
-                }
+                config1.colorsScale = d3.scale.ordinal().range(["#37779d", "#235676"]);
 
                 var data = [];
                 var percent = Math.round(result[category] / transactions * 100).toString();
@@ -151,7 +150,11 @@ app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
                     value: percent,
                     label: category + ": " + percent + "%"
                 }
+                var obj2 = {
+                    value: "100"
+                }
                 data.push(obj);
+                data.push(obj2);
 
                 d3.select("#rect_display")
                     .append("svg")
@@ -160,6 +163,12 @@ app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
                     .attr("height", "18px")
                 loadRectangularAreaChart("rectChart" + i++, data, config1);
             }
+
+            /*d3.select("#rect_display")
+                .selectAll("svg")
+                .select("g")
+                .select("path")
+                .attr("d", "M3,14L752,14");*/
         });
     }
 });
