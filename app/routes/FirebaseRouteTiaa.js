@@ -47,14 +47,15 @@ module.exports = function(router) {
             var ref = new Firebase(url);
             if(req.params.type == 'TRN') { // query object with passed TRN
                 ref.orderByChild('TRN').equalTo(parseInt(req.params.key)).once('value', function(snap) {
-                    res.json(snap.val());
+                    // for some reason this returns dict, so changing it to array
+                    var array = [];
+                    snap.forEach(function(childSnap) {
+                        array.push(childSnap.val());
+                    });
+                    res.json(array);
                 });
             } else if(req.params.type == 'CATEGORY') { // query object with passed CATEGORY
                 ref.orderByChild('CATEGORY').equalTo(req.params.key).once('value', function(snap) {
-                    res.json(snap.val());
-                });
-            } else {
-                ref.orderByChild('TRN').equalTo(2055745).once('value', function(snap) {
                     res.json(snap.val());
                 });
             }
@@ -62,14 +63,14 @@ module.exports = function(router) {
 
     router.route('/firebasemetrics/:tiaa_id')
         .get(function(req, res) {
-            var ref = new Firebase(url + req.params.tiaa_id);
+            var ref = new Firebase(url + '/' + req.params.tiaa_id);
             ref.once('value', function(snap) {
                 res.json(snap.val());
             });
         })
 
         .put(function(req, res) {
-            var ref = new Firebase(url + req.params.tiaa_id);
+            var ref = new Firebase(url + '/' + req.params.tiaa_id);
 
             var onComplete = function(error) {
                 if(error) {
@@ -101,7 +102,7 @@ module.exports = function(router) {
         })
 
         .delete(function(req, res) {
-            var ref = new Firebase(url + req.params.taxi_id);
+            var ref = new Firebase(url + '/' + req.params.taxi_id);
 
             var onComplete = function(error) {
                 if(error) {
