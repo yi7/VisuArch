@@ -1,11 +1,24 @@
 <div class="jumbotron">
     <form ng-submit="search()">
         <div class="row" style="background-color: white; padding: 10px;">
-            <div class="col-md-6"><img src="views/images/tiaa_logo.png"/></div>
-            <div class="col-md-2" style="padding-top: 6px; padding-left: 35px;"><font size="4" color="3c7dae">Overview</font></div>
+            <div class="col-md-2"><img src="views/images/tiaa_logo.png"/></div>
+            <div class="col-md-6" >
+                <table>
+                    <tr>
+                        <td style="padding: 5px;">
+                            <input type="radio" name="db" ng-click="test()" value="Mongo" checked="checked">
+                            <font size="4">Mongo</font>
+                        </td>
+                        <td style="padding: 5px;">
+                            <input type="radio" name="db" ng-click="test()" value="Firebase">
+                            <font size="4">Firebase</font>
+                        </td>
+                    </tr>
+                </table>
+            </div>
             <div class="col-md-4">
                 <font size="4" style="float: left; padding-right: 20px; padding-top: 6px;">By Transaction Code</font>
-                <input ng-model="TRN" type="text" class="form-control" style="width: 40%;" placeholder="ex. 2055745">
+                <input ng-model="TRN" type="text" class="form-control" style="width: 40%;" placeholder="Search...">
             </div>
         </div>
     </form>
@@ -13,11 +26,14 @@
     <div class="row" style="background-color: #34a3d6;">
         <div class="col-md-5" style="padding-left: 20px;">
             <h2>
-                <font color="white" style="padding-right: 10px;">${{total_cash}}</font>
+                <font color="white">Overview</font>
+            </h2>
+            <h2>
+                <font color="white">${{total_cash}}</font>
                 <font color="white" size="3">Cash</font>
             </h2>
             <h2>
-                <font color="white" style="padding-right: 10px;">{{total_transaction}}</font>
+                <font color="white">{{total_transaction}}</font>
                 <font color="white" size="3">Transactions</font>
             </h2>
         </div>

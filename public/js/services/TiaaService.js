@@ -1,22 +1,30 @@
 angular.module('TiaaService', [])
     .factory('Tiaa', ['$http', function($http) {
         return {
-            getAll: function() {
+            mongoGetAll: function() {
                 return $http.get('/api/mongometrics');
             },
-
-            // call to POST and create a new taxi
-            create: function(tiaaData) {
+            mongoCreate: function(tiaaData) {
                 return $http.post('/api/mongometrics', tiaaData);
             },
-
-            // call to DELETE a taxi
-            delete: function(id) {
+            mongoDelete: function(id) {
                 return $http.delete('/api/mongometrics/' + id);
             },
-
-            query: function(type, key) {
+            mongoQuery: function(type, key) {
                 return $http.get('/api/mongometrics/query/' + type + '/' + key);
+            },
+
+            firebaseGetAll: function() {
+                return $http.get('/api/firebasemetrics');
+            },
+            firebaseCreate: function(tiaaData) {
+                return $http.post('/api/firebasemetrics', tiaaData);
+            },
+            firebaseDelete: function(id) {
+                return $http.delete('/api/firebasemetrics/' + id);
+            },
+            firebaseQuery: function(type, key) {
+                return $http.get('/api/firebasemetrics/query/' + type + '/' + key);
             }
         }
 }]);

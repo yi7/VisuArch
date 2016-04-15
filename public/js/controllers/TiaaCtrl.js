@@ -7,7 +7,7 @@ app.controller('TiaaController', function($scope, $filter, Tiaa) {
         $scope.showModal = !$scope.showModal;
         $scope.title = $scope.TRN;
         $scope.transactions = [];
-        Tiaa.query('TRN', $scope.TRN).then(function(response) {
+        Tiaa.mongoQuery('TRN', $scope.TRN).then(function(response) {
             for(var i = 0; i < response.data.length; i++) {
                 $scope.transactions.push(response.data[i]);
             }
@@ -15,7 +15,7 @@ app.controller('TiaaController', function($scope, $filter, Tiaa) {
     }
 
     // Overview Information
-    Tiaa.getAll().then(function(response) {
+    Tiaa.mongoGetAll().then(function(response) {
         var total = 0;
         var transactions = response.data.length;
         var result = {}; // dictionary to count CATEGORY, used for Category section
@@ -92,7 +92,7 @@ app.controller('TiaaController', function($scope, $filter, Tiaa) {
         $scope.category = category;
 
         // Info window for selected liquid gauge
-        Tiaa.query('CATEGORY', category).then(function(response) {
+        Tiaa.mongoQuery('CATEGORY', category).then(function(response) {
             var total = 0;
             var transactions = response.data.length;
             var min = response.data[0].CASH;
