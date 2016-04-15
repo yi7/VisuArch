@@ -1,13 +1,13 @@
-var app = angular.module('TiaaMCtrl', []);
+var app = angular.module('TiaaCtrl', []);
 
-app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
+app.controller('TiaaController', function($scope, $filter, Tiaa) {
     // Modal Popup. User enters a TRN (ex.2055745) in the searchbox
     $scope.showModal = false;
     $scope.search = function() {
         $scope.showModal = !$scope.showModal;
         $scope.title = $scope.TRN;
         $scope.transactions = [];
-        TiaaMongo.query('TRN', $scope.TRN, 'TRN TRADE_DATE CATEGORY SUB_CATEGORY CASH').then(function(response) {
+        Tiaa.query('TRN', $scope.TRN).then(function(response) {
             for(var i = 0; i < response.data.length; i++) {
                 $scope.transactions.push(response.data[i]);
             }
@@ -15,30 +15,25 @@ app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
     }
 
     // Overview Information
-    TiaaMongo.query(' ', ' ', 'CASH').then(function(response) {
+    Tiaa.getAll().then(function(response) {
         var total = 0;
         var transactions = response.data.length;
+        var result = {}; // dictionary to count CATEGORY, used for Category section
         for(var i = 0; i < transactions; i++) {
             total += response.data[i].CASH;
-        }
-        var average = total / transactions;
 
-        $scope.total_cash = Math.round(total).toLocaleString();
-        $scope.average_cash = Math.round(average).toLocaleString();
-        $scope.total_transaction = transactions;
-    });
-
-    // Category Information. Creates Liquid Gauge per Category
-    TiaaMongo.query(' ', ' ', 'CATEGORY').then(function(response) {
-        var transactions = response.data.length;
-        result = {};
-        for(var i = 0; i < transactions; i++) {
             if(!result[response.data[i].CATEGORY]) {
                 result[response.data[i].CATEGORY] = 0;
             }
             result[response.data[i].CATEGORY]++;
         }
+        var average = total / transactions;
 
+        $scope.total_cash = Math.round(total).toLocaleString();
+        $scope.total_transaction = transactions;
+
+        // =======================================================
+        // Category Information. Creates Liquid Gauge per Category
         var config1 = liquidFillGaugeDefaultSettings();
         config1.circleThickness = 0.2;
         config1.circleColor = "#178bca";
@@ -71,6 +66,7 @@ app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
     // Liquid Guage Selection. Highlights the selected liquid gauge
     $scope.display = false;
     $scope.select = function(id) {
+        // check to make sure the id I inserted exists, otherwise ignore
         if(d3.select("#" + id).select("div").empty()) {
             return;
         }
@@ -93,15 +89,10 @@ app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
 
         $scope.display = true;
         var category = d3.select("#" + id).select("div").attr("id");
-        if(category == "none") {
-            $scope.category = "No Category";
-            category = ' ';
-        } else {
-            $scope.category = category;
-        }
+        $scope.category = category;
 
         // Info window for selected liquid gauge
-        TiaaMongo.query('CATEGORY', category, 'CATEGORY SUB_CATEGORY CASH').then(function(response) {
+        Tiaa.query('CATEGORY', category).then(function(response) {
             var total = 0;
             var transactions = response.data.length;
             var min = response.data[0].CASH;
@@ -129,7 +120,7 @@ app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
             $scope.min = min.toLocaleString();
             $scope.trans = transactions;
 
-
+            // =========================================
             // Rect Area Chart for selected Liquid Gauge
             d3.select("#rect_display").selectAll("svg").remove();
 
@@ -163,12 +154,6 @@ app.controller('TiaaMController', function($scope, $filter, TiaaMongo) {
                     .attr("height", "18px")
                 loadRectangularAreaChart("rectChart" + i++, data, config1);
             }
-
-            /*d3.select("#rect_display")
-                .selectAll("svg")
-                .select("g")
-                .select("path")
-                .attr("d", "M3,14L752,14");*/
         });
     }
 });

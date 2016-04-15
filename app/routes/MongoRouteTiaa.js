@@ -37,34 +37,20 @@ module.exports = function(router) {
             });
         });
 
-    router.route('/mongometrics/query/:data/:key/:select')
+    router.route('/mongometrics/query/:type/:key')
         .get(function(req, res) {
-            if(req.params.data == ' ') {
-                Metric.find({}, req.params.select, function(err, metrics) {
+            if(req.params.type == 'TRN') { // query object with passed TRN
+                Metric.find({'TRN': req.params.key}, function(err, metrics) {
                     if (err)
                         res.send(err);
                     res.json(metrics);
                 });
-            } else if(req.params.data == 'TRN') {
-                Metric.find({'TRN': req.params.key}, req.params.select, function(err, metrics) {
+            } else if(req.params.type == 'CATEGORY') { // query object with passed CATEGORY
+                Metric.find({'CATEGORY': req.params.key}, function(err, metrics) {
                     if (err)
                         res.send(err);
                     res.json(metrics);
                 });
-            } else if(req.params.data == 'CATEGORY') {
-                if(req.params.key == ' ') {
-                    Metric.find({'CATEGORY': ""}, req.params.select, function(err, metrics) {
-                        if (err)
-                            res.send(err);
-                        res.json(metrics);
-                    });
-                } else {
-                    Metric.find({'CATEGORY': req.params.key}, req.params.select, function(err, metrics) {
-                        if (err)
-                            res.send(err);
-                        res.json(metrics);
-                    });
-                }
             }
         });
 
