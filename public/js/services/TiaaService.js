@@ -1,5 +1,5 @@
-angular.module('TiaaMService', [])
-    .factory('TiaaMongo', ['$http', function($http) {
+angular.module('TiaaService', [])
+    .factory('Tiaa', ['$http', function($http) {
         return {
             getAll: function() {
                 return $http.get('/api/mongometrics');
@@ -15,8 +15,8 @@ angular.module('TiaaMService', [])
                 return $http.delete('/api/mongometrics/' + id);
             },
 
-            query: function(data, key, select) {
-                return $http.get('/api/mongometrics/query/' + data + '/' + key + '/' + select);
+            query: function(type, key) {
+                return $http.get('/api/mongometrics/query/' + type + '/' + key);
             }
         }
 }]);

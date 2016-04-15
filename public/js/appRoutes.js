@@ -5,9 +5,9 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
             templateUrl: 'views/home.html',
             controller: 'MainController'
         })
-        .when('/tiaamongo', {
-            templateUrl: 'views/tiaaM.html',
-            controller: 'TiaaMController'
+        .when('/tiaa', {
+            templateUrl: 'views/tiaa.html',
+            controller: 'TiaaController'
         })
         .otherwise({
             redirectTo: '/'
