@@ -20,6 +20,7 @@ var port = process.env.PORT || 3000;
 var router = express.Router();
 require('./app/routes/MainRoute')(router);
 require('./app/routes/MongoRouteTiaa')(router);
+require('./app/routes/FirebaseRouteTiaa')(router);
 
 app.use('/api', router);
 
