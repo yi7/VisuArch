@@ -25,6 +25,19 @@ angular.module('TiaaService', [])
             },
             firebaseQuery: function(type, key) {
                 return $http.get('/api/firebasemetrics/query/' + type + '/' + key);
+            },
+
+            couchGetAll: function() {
+                return $http.get('/api/couchmetrics');
+            },
+            couchCreate: function(tiaaData) {
+                return $http.post('/api/couchmetrics', tiaaData);
+            },
+            couchDelete: function(id, rev) {
+                return $http.delete('/api/couchmetrics/' + id + '/' + rev);
+            },
+            couchQuery: function(type, key) {
+                return $http.get('/api/couchmetrics/query/' + type + '/' + key);
             }
         }
 }]);

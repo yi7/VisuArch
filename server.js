@@ -6,7 +6,8 @@ var methodOverride  = require('method-override');
 var mongoose        = require('mongoose');
 
 var database = require('./config/database');
-mongoose.connect(database.url);
+mongoose.connect(database.mongoUrl);
+var nano = require('nano')(database.couchUrl);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -21,6 +22,7 @@ var router = express.Router();
 require('./app/routes/MainRoute')(router);
 require('./app/routes/MongoRouteTiaa')(router);
 require('./app/routes/FirebaseRouteTiaa')(router);
+require('./app/routes/CouchRouteTiaa')(router, nano);
 
 app.use('/api', router);
 
