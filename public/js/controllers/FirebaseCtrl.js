@@ -1,13 +1,13 @@
-var app = angular.module('TiaaCtrl', []);
+var app = angular.module('FirebaseCtrl', []);
 
-app.controller('TiaaController', function($scope, $filter, Tiaa) {
+app.controller('TiaaFirebaseController', function($scope, $filter, Tiaa) {
     // Modal Popup. User enters a TRN (ex.2055745) in the searchbox
     $scope.showModal = false;
     $scope.search = function() {
         $scope.showModal = !$scope.showModal;
         $scope.title = $scope.TRN;
         $scope.transactions = [];
-        Tiaa.mongoQuery('TRN', $scope.TRN).then(function(response) {
+        Tiaa.firebaseQuery('TRN', $scope.TRN).then(function(response) {
             for(var i = 0; i < response.data.length; i++) {
                 $scope.transactions.push(response.data[i]);
             }
@@ -15,7 +15,7 @@ app.controller('TiaaController', function($scope, $filter, Tiaa) {
     }
 
     // Overview Information
-    Tiaa.mongoGetAll().then(function(response) {
+    Tiaa.firebaseGetAll().then(function(response) {
         var total = 0;
         var transactions = response.data.length;
         var result = {}; // dictionary to count CATEGORY, used for Category section
@@ -92,7 +92,7 @@ app.controller('TiaaController', function($scope, $filter, Tiaa) {
         $scope.category = category;
 
         // Info window for selected liquid gauge
-        Tiaa.mongoQuery('CATEGORY', category).then(function(response) {
+        Tiaa.firebaseQuery('CATEGORY', category).then(function(response) {
             var total = 0;
             var transactions = response.data.length;
             var min = response.data[0].CASH;
@@ -157,46 +157,3 @@ app.controller('TiaaController', function($scope, $filter, Tiaa) {
         });
     }
 });
-
-// Directive for the modal.
-app.directive('modal', function () {
-    return {
-        template:   '<div class="modal fade">' +
-                        '<div class="modal-dialog">' +
-                            '<div class="modal-content">' +
-                                '<div class="modal-header">' +
-                                    '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' +
-                                    '<h4 class="modal-title" style="text-align: center;">' +
-                                        '<font color="6d7173">{{ title }}</font>' +
-                                    '</h4>' +
-                                '</div>' +
-                                '<div class="modal-body" ng-transclude></div>' +
-                            '</div>' +
-                        '</div>' +
-                    '</div>',
-        restrict: 'E',
-        transclude: true,
-        replace:true,
-        scope:true,
-        link: function postLink(scope, element, attrs) {
-            scope.$watch(attrs.visible, function(value){
-                if(value == true)
-                    $(element).modal('show');
-                else
-                    $(element).modal('hide');
-            });
-
-            $(element).on('shown.bs.modal', function(){
-                scope.$apply(function(){
-                    scope.$parent[attrs.visible] = true;
-                });
-            });
-
-            $(element).on('hidden.bs.modal', function(){
-                scope.$apply(function(){
-                    scope.$parent[attrs.visible] = false;
-                });
-            });
-        }
-    };
-  });

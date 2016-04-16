@@ -60,7 +60,6 @@ module.exports = function(router, nano) {
                 });
             } else if(req.params.type == 'CATEGORY') { // query object with passed CATEGORY
                 metric.list({include_docs: true}, function(err, body) {
-                    console.log(req.params.key);
                     if (!err) {
                         var array = [];
                         body.rows.forEach(function(ref) {

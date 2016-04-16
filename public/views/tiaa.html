@@ -2,23 +2,18 @@
     <form ng-submit="search()">
         <div class="row" style="background-color: white; padding: 10px;">
             <div class="col-md-2"><img src="views/images/tiaa_logo.png"/></div>
-            <div class="col-md-6" >
+            <div class="col-md-5"></div>
+            <div class="col-md-5">
                 <table>
                     <tr>
                         <td style="padding: 5px;">
-                            <input type="radio" name="db" ng-click="test()" value="Mongo" checked="checked">
-                            <font size="4">Mongo</font>
+                            <font size="4">By Transaction Code</font>
                         </td>
                         <td style="padding: 5px;">
-                            <input type="radio" name="db" ng-click="test()" value="Firebase">
-                            <font size="4">Firebase</font>
+                            <input ng-model="TRN" type="text" class="form-control" placeholder="Search...">
                         </td>
                     </tr>
                 </table>
-            </div>
-            <div class="col-md-4">
-                <font size="4" style="float: left; padding-right: 20px; padding-top: 6px;">By Transaction Code</font>
-                <input ng-model="TRN" type="text" class="form-control" style="width: 40%;" placeholder="Search...">
             </div>
         </div>
     </form>
