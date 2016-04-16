@@ -8,7 +8,7 @@ module.exports = function(router) {
 
             var onComplete = function(error) {
                 if(error) {
-                    console.log('Unable to push');
+                    res.json({ message: 'Unable to Push Metric' });
                 } else {
                     res.json({ message: 'Metric Created' });
                 }
@@ -47,7 +47,6 @@ module.exports = function(router) {
             var ref = new Firebase(url);
             if(req.params.type == 'TRN') { // query object with passed TRN
                 ref.orderByChild('TRN').equalTo(parseInt(req.params.key)).once('value', function(snap) {
-                    // for some reason this returns dict, so changing it to array
                     var array = [];
                     snap.forEach(function(childSnap) {
                         array.push(childSnap.val());
@@ -56,7 +55,11 @@ module.exports = function(router) {
                 });
             } else if(req.params.type == 'CATEGORY') { // query object with passed CATEGORY
                 ref.orderByChild('CATEGORY').equalTo(req.params.key).once('value', function(snap) {
-                    res.json(snap.val());
+                    var array = [];
+                    snap.forEach(function(childSnap) {
+                        array.push(childSnap.val());
+                    });
+                    res.json(array);
                 });
             }
         });
@@ -74,7 +77,7 @@ module.exports = function(router) {
 
             var onComplete = function(error) {
                 if(error) {
-                    console.log('Unable to update');
+                    res.json({ message: 'Unable to Update Metric' });
                 } else {
                     res.json({ message: 'Metric Updated!' });
                 }
@@ -106,7 +109,7 @@ module.exports = function(router) {
 
             var onComplete = function(error) {
                 if(error) {
-                    console.log('Unable to remove');
+                    res.json({ message: 'Unable to Delete Metric' });
                 } else {
                     res.json({ message: 'Successfully deleted' });
                 }
