@@ -2,6 +2,19 @@
     cursor: pointer;
 }
 
+#trancodeBox table tr td {
+    border: 1px solid #ccc;
+}
+
+#trancodeBox table tr td a {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#trancodeBox table tr td a div:hover {
+    background-color: #f5a623;
+}
+
 .bottom {
     border-bottom: 1px solid #ccc;
 }
