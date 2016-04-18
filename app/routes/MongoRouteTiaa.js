@@ -39,14 +39,20 @@ module.exports = function(router) {
 
     router.route('/mongometrics/query/:type/:key')
         .get(function(req, res) {
-            if(req.params.type == 'TRN') { // query object with passed TRN
+            if(req.params.type == 'TRN') {
                 Metric.find({'TRN': req.params.key}, function(err, metrics) {
                     if (err)
                         res.send(err);
                     res.json(metrics);
                 });
-            } else if(req.params.type == 'CATEGORY') { // query object with passed CATEGORY
+            } else if(req.params.type == 'CATEGORY') {
                 Metric.find({'CATEGORY': req.params.key}, function(err, metrics) {
+                    if (err)
+                        res.send(err);
+                    res.json(metrics);
+                });
+            } else if(req.params.type == 'TRAN_CODE') {
+                Metric.find({'TRAN_CODE': req.params.key}, function(err, metrics) {
                     if (err)
                         res.send(err);
                     res.json(metrics);
