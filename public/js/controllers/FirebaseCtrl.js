@@ -30,6 +30,7 @@ app.controller('TiaaFirebaseController', function($scope, $filter, Tiaa) {
         var average = total / transactions;
 
         $scope.total_cash = Math.round(total).toLocaleString();
+        $scope.total_average = Math.round(average).toLocaleString();
         $scope.total_transaction = transactions;
 
         // =======================================================
