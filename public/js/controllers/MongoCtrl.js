@@ -16,7 +16,7 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
 
     // Overview Information
     Tiaa.mongoGetAll().then(function(response) {
-        console.log(response);
+      
         var total = 0;
         var transactions = response.data.length;
         var categories = {}; // dictionary to count CATEGORY, used for Category section
@@ -36,6 +36,9 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
             trancode[response.data[i].TRAN_CODE]++;
         }
         var average = total / transactions;
+
+        console.log(categories);
+        console.log(trancode);
 
         $scope.total_cash = Math.round(total).toLocaleString();
         $scope.total_average = Math.round(average).toLocaleString();
