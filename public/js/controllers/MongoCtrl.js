@@ -292,7 +292,7 @@ function lineGraph(data, id) {
       .tickSize(5)
       .orient('left')
       .tickSubdivide(true)
-      .style("fill", "white");
+      .attr("fill", "white");
 
 vis.append('svg:g')
   .attr('class', 'x axis')
