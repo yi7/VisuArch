@@ -263,6 +263,7 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 function lineGraph(data, id) {
 
+
   var vis = d3.select(id),
     WIDTH = 500,
     HEIGHT = 250,
