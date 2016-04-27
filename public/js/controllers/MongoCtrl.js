@@ -46,7 +46,7 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
         }
         var average = total / transactions;
 
-        //delete tranCash["7/20/2015"];
+        delete tranCash["7/20/2015"];
         //delete tranCash["7/31/2015"];
 
 
