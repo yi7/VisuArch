@@ -16,6 +16,7 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
 
     // Overview Information
     Tiaa.mongoGetAll().then(function(response) {
+        console.log(response);
         var total = 0;
         var transactions = response.data.length;
         var categories = {}; // dictionary to count CATEGORY, used for Category section
