@@ -45,7 +45,7 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
         var average = total / transactions;
 
         for (var data in lineData) {
-          console.log(data);
+          console.log(data[1]);
         }
 
         $scope.total_cash = Math.round(total).toLocaleString();
