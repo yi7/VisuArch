@@ -55,7 +55,7 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
         }
 
         for (var data in lineData) {
-          console.log(lineData[data].x + ": " lineData[data].y);
+          console.log(lineData[data]);
         }
 
         $scope.total_cash = Math.round(total).toLocaleString();
