@@ -46,6 +46,8 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
         }
         var average = total / transactions;
 
+        delete tranCash["7/20/2015"];
+        delete tranCash["7/31/2015"];
 
         for (var value in tranCash) {
           var date = value;
@@ -54,9 +56,7 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
           lineData.push(a);
         }
 
-        for (var data in lineData) {
-          console.log(lineData[data]);
-        }
+        lineGraph(lineData, '#line-viz');
 
         $scope.total_cash = Math.round(total).toLocaleString();
         $scope.total_average = Math.round(average).toLocaleString();
@@ -250,4 +250,73 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
             }
         });
     }
+
 });
+
+function lineGraph(data, id) {
+
+  var vis = d3.select(id),
+    WIDTH = 1000,
+    HEIGHT = 500,
+    MARGINS = {
+      top: 20,
+      right: 20,
+      bottom: 20,
+      left: 50
+    },
+    xRange = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([d3.min(data, function(d) {
+      return d.x;
+    }), d3.max(data, function(d) {
+      return d.x;
+    })]),
+    yRange = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([d3.min(data, function(d) {
+      return d.y;
+    }), d3.max(data, function(d) {
+      return d.y;
+    })]),
+    xAxis = d3.svg.axis()
+      .scale(xRange)
+      .tickSize(1)
+      .tickSubdivide(true),
+    yAxis = d3.svg.axis()
+      .scale(yRange)
+      .tickSize(5)
+      .orient('left')
+      .tickSubdivide(true);
+
+vis.append('svg:g')
+  .attr('class', 'x axis')
+  .attr('transform', 'translate(0,' + (HEIGHT - MARGINS.bottom) + ')')
+  .call(xAxis);
+
+vis.append('svg:g')
+  .attr('class', 'y axis')
+  .attr('transform', 'translate(' + (MARGINS.left) + ',0)')
+  .call(yAxis) //;
+  .append("text")
+  .attr("transform", "rotate(-90)")
+  .attr("y", 6)
+  .attr("dy", ".8em")
+  .style("text-anchor", "end")
+  .text("Avg Trips Per Day (x10,000)");
+
+
+
+  var lineFunc = d3.svg.line()
+    .x(function(d) {
+      return xRange(d.x);
+    })
+    .y(function(d) {
+      return yRange(d.y);
+    })
+    .interpolate('linear');
+
+    vis.append('svg:path')
+      .attr('d', lineFunc(data))
+      .attr('stroke', 'blue')
+      .attr('stroke-width', 2)
+      .attr('fill', 'none');
+
+
+//end
+}
