@@ -61,9 +61,8 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
           lineData.push(a);
         }
 
-        console.log(lineData);
         insertionSort(lineData);
-        console.log(lineData);
+        console.log(lineData)
 
         //lineGraph(lineData, '#line-viz');
 
@@ -338,7 +337,7 @@ function insertionSort(unsortedList) {
     var tmp = unsortedList[i]; //Copy of the current element.
     /*Check through the sorted part and compare with the
     number in tmp. If large, shift the number*/
-    for(var j = i - 1; j >= 0 && (unsortedList[j].y > tmp.y); j--) {
+    for(var j = i - 1; j >= 0 && (unsortedList[j].x > tmp.x); j--) {
       //Shift the number
       unsortedList[j+1] = unsortedList[j];
     }
