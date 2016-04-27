@@ -21,7 +21,7 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
         var transactions = response.data.length;
         var categories = {}; // dictionary to count CATEGORY, used for Category section
         var trancode = {};
-        var tranCash = {};
+        var transDay = {};
         var lineData = [];
 
 
@@ -46,17 +46,17 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
         }
         var average = total / transactions;
 
-        delete tranCash["7/20/2015"];
-        //delete tranCash["7/31/2015"];
+        delete transDay["7/20/2015"];
+        delete transDay["7/31/2015"];
 
 
 
-        for (var value in tranCash) {
-          var x = value[2];
-          var y = value[3];
+        for (var day in transDay) {
+          var x = day[2];
+          var y = day[3];
           var xy = x.concat(y);
           var date = Number(xy);
-          var cash = tranCash[value];
+          var cash = transDay[day];
           var a = {"x":date, "y":cash};
           lineData.push(a);
         }
