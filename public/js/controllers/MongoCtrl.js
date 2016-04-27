@@ -297,8 +297,6 @@ vis.append('svg:g')
   .attr('transform', 'translate(0,' + (HEIGHT - MARGINS.bottom) + ')')
   .call(xAxis);
   .append("text")
-  .attr("x", 6)
-  .attr("dx", ".8em")
   .style("text-anchor", "end")
   .text("Date Range 07/21/2015 - 07/30/2015");
 
