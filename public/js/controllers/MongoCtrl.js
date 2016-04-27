@@ -291,7 +291,8 @@ function lineGraph(data, id) {
       .scale(yRange)
       .tickSize(5)
       .orient('left')
-      .tickSubdivide(true);
+      .tickSubdivide(true)
+      .style("fill", "white");
 
 vis.append('svg:g')
   .attr('class', 'x axis')
@@ -328,7 +329,7 @@ vis.append('svg:g')
 
     vis.append('svg:path')
       .attr('d', lineFunc(data))
-      .attr('stroke', 'blue')
+      .attr('stroke', 'white')
       .attr('stroke-width', 2)
       .attr('fill', 'none');
 
