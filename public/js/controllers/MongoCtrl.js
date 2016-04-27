@@ -49,19 +49,23 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
         delete tranCash["7/20/2015"];
         delete tranCash["7/31/2015"];
 
-        for (var value in tranCash) {
 
+
+        for (var value in tranCash) {
           var x = value[2];
           var y = value[3];
           var xy = x.concat(y);
           var date = Number(xy);
-
           var cash = tranCash[value];
           var a = {"x":date, "y":cash};
           lineData.push(a);
         }
 
-        lineGraph(lineData, '#line-viz');
+        console.log(lineData);
+        insertionSort(lineData);
+        console.log(lineData);
+
+        //lineGraph(lineData, '#line-viz');
 
         $scope.total_cash = Math.round(total).toLocaleString();
         $scope.total_average = Math.round(average).toLocaleString();
@@ -258,6 +262,7 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
 
 });
 
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 function lineGraph(data, id) {
 
   var vis = d3.select(id),
@@ -324,4 +329,21 @@ vis.append('svg:g')
 
 
 //end
+}
+
+function insertionSort(unsortedList) {
+  var len = unsortedList.length;
+
+  for(var i = 0; i < len; i++) {
+    var tmp = unsortedList[i]; //Copy of the current element.
+    /*Check through the sorted part and compare with the
+    number in tmp. If large, shift the number*/
+    for(var j = i - 1; j >= 0 && (unsortedList[j].y > tmp.y); j--) {
+      //Shift the number
+      unsortedList[j+1] = unsortedList[j];
+    }
+    //Insert the copied number at the correct position
+    //in sorted part.
+    unsortedList[j+1] = tmp;
+  }
 }
