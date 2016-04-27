@@ -50,6 +50,12 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
         delete tranCash["7/31/2015"];
 
         for (var value in tranCash) {
+/*
+          var x = value[2];
+          var y = value[3];
+          var xy = x.concat(y);
+          var date = Number(x);
+*/
           var date = value;
           var cash = tranCash[value];
           var a = {"x":date, "y":cash};
@@ -264,11 +270,8 @@ function lineGraph(data, id) {
       bottom: 20,
       left: 50
     },
-    xRange = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([d3.min(data, function(d) {
-      return d.x;
-    }), d3.max(data, function(d) {
-      return d.x;
-    })]),
+    xRange = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain(21, 30),
+
     yRange = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([d3.min(data, function(d) {
       return d.y;
     }), d3.max(data, function(d) {
