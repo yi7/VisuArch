@@ -21,7 +21,9 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
         var transactions = response.data.length;
         var categories = {}; // dictionary to count CATEGORY, used for Category section
         var trancode = {};
-        var lineData = {};
+        var tranCash = {};
+        var lineData = [];
+
 
         // loops through all transactions
         for(var i = 0; i < transactions; i++) {
@@ -37,15 +39,19 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
             }
             trancode[response.data[i].TRAN_CODE]++;
 
-            if(!lineData[response.data[i].TRADE_DATE]) {
-                lineData[response.data[i].TRADE_DATE] = 0;
+            if(!tranCash[response.data[i].TRADE_DATE]) {
+                tranCash[response.data[i].TRADE_DATE] = 0;
             }
-            lineData[response.data[i].TRADE_DATE] += response.data[i].CASH;
+            tranCash[response.data[i].TRADE_DATE] += response.data[i].CASH;
         }
         var average = total / transactions;
 
-        for (var data in lineData) {
-          console.log(lineData[data]);
+
+        for (var value in tranCash) {
+          var date = value;
+          var cash = tranCash[value];
+          var a = {"x":date, "y":cash};
+          lineData.push(a);
         }
 
         $scope.total_cash = Math.round(total).toLocaleString();
