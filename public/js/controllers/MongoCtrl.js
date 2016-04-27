@@ -289,7 +289,7 @@ function lineGraph(data, id) {
       .tickSubdivide(true),
     yAxis = d3.svg.axis()
       .scale(yRange)
-      .tickSize(5)
+      .tickSize(1)
       .orient('left')
       .tickSubdivide(true);
 
@@ -329,7 +329,7 @@ vis.append('svg:g')
     vis.append('svg:path')
       .attr('d', lineFunc(data))
       .attr('stroke', 'white')
-      .attr('stroke-width', 2)
+      .attr('stroke-width', 1)
       .attr('fill', 'none');
 
 
