@@ -61,6 +61,7 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
           lineData.push(a);
         }
 
+        console.log(lineData);
         insertionSort(lineData);
         lineGraph(lineData, '#line-viz');
 
