@@ -308,7 +308,7 @@ vis.append('svg:g')
   .call(yAxis) //;
   .append("text")
   .attr("transform", "rotate(-90)")
-  .attr("y", 6)
+  .attr("y", 12)
   .attr("dy", ".8em")
   .style("text-anchor", "end")
   .text("Cash Amt");
