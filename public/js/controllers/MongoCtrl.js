@@ -62,9 +62,7 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
         }
 
         insertionSort(lineData);
-        console.log(lineData)
-
-        //lineGraph(lineData, '#line-viz');
+        lineGraph(lineData, '#line-viz');
 
         $scope.total_cash = Math.round(total).toLocaleString();
         $scope.total_average = Math.round(average).toLocaleString();
