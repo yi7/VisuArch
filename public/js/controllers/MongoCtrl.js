@@ -309,7 +309,7 @@ vis.append('svg:g')
   .call(yAxis) //;
   .append("text")
   .attr("transform", "rotate(-90)")
-  .attr("x", 12)
+  .attr("x", 44)
   .attr("y", 6)
   .attr("dy", ".8em")
   .style("text-anchor", "end")
