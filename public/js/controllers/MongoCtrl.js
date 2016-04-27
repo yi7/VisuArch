@@ -39,10 +39,10 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
             }
             trancode[response.data[i].TRAN_CODE]++;
 
-            if(!tranCash[response.data[i].TRADE_DATE]) {
-                tranCash[response.data[i].TRADE_DATE] = 0;
+            if(!transDay[response.data[i].TRADE_DATE]) {
+                transDay[response.data[i].TRADE_DATE] = 0;
             }
-            tranCash[response.data[i].TRADE_DATE] += response.data[i].CASH;
+            transDay[response.data[i].TRADE_DATE] += response.data[i].CASH;
         }
         var average = total / transactions;
 
