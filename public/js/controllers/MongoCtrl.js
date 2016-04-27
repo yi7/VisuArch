@@ -296,6 +296,11 @@ vis.append('svg:g')
   .attr('class', 'x axis')
   .attr('transform', 'translate(0,' + (HEIGHT - MARGINS.bottom) + ')')
   .call(xAxis);
+  .append("text")
+  .attr("x", 6)
+  .attr("dx", ".8em")
+  .style("text-anchor", "end")
+  .text("Date Range 07/21/2015 - 07/30/2015");
 
 vis.append('svg:g')
   .attr('class', 'y axis')
@@ -306,7 +311,7 @@ vis.append('svg:g')
   .attr("y", 6)
   .attr("dy", ".8em")
   .style("text-anchor", "end")
-  .text("Avg Trips Per Day (x10,000)");
+  .text("Cash Amount");
 
 
 
