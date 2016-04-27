@@ -266,10 +266,10 @@ function lineGraph(data, id) {
     WIDTH = 500,
     HEIGHT = 250,
     MARGINS = {
-      top: 20,
-      right: 20,
-      bottom: 20,
-      left: 50
+      top: 30,
+      right: 30,
+      bottom: 30,
+      left: 60
     },
     xRange = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([d3.min(data, function(d) {
       return d.x;
