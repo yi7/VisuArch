@@ -45,7 +45,9 @@
     <div class="row" style="background-color: #34a3d6; padding-bottom: 30px;">
         <div class="col-md-7" style="padding-right: 0px;">
             <div style="background-color: #5eafd7;">
-                <font size="5" color="white" style="padding: 10px;">Category</font>
+                <font size="5" color="white" style="padding: 10px;">Category
+                    <font size="3" color="white">(Select a Liquid Gauge for information)</font>
+                </font>
                 <br/><br/>
                 <div id="gauge_display" style="padding-left: 10px;">
                     <svg ng-click="select_gauge('fillgauge1', '#f5a623')" id="fillgauge1" width="32%" height="80%"></svg>
@@ -56,7 +58,9 @@
         </div>
         <div class="col-md-5" style="padding-left: 0px;">
             <div style="background-color: #5eafd7; height: 210px;">
-                <font size="5" color="white" style="padding: 10px;">Trancode</font>
+                <font size="5" color="white" style="padding: 10px;">Trancode
+                    <font size="3" color="white">(Select a Trancode for Corresponding Activity)</font>
+                </font>
                 <br/><br/>
                 <div style="padding-right: 10px; padding-left: 10px;">
                     <table style="width: 100%; background-color: #178BCA;">
@@ -137,6 +141,8 @@
             </div>
         </div>
         <div class="col-md-12" style="padding-top: 15px;">
+            <font size="3" color="white">Data is being pulled from {{database}} cloud based service</font>
+            <br/>
             <font size="3" color="white">Page Load Time: {{timer}} seconds</font>
         </div>
     </div>
