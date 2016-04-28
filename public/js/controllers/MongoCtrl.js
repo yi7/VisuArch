@@ -286,8 +286,7 @@ function lineGraph(data, id) {
     xAxis = d3.svg.axis()
       .scale(xRange)
       .tickSize(1)
-      .tickSubdivide(true)
-      .tickFormat(fuction(d){ return "7/" + d.x}),
+      .tickSubdivide(true),
     yAxis = d3.svg.axis()
       .scale(yRange)
       .tickSize(1)
