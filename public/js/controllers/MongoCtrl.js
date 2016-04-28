@@ -339,8 +339,9 @@ vis.append('svg:g')
   var point = vis.append("svg:g")
   .attr("class", "line-point");
 
-  point.selectAll('svg:circle')
-      .enter().append('svg:circle')
+  point.selectAll("dot")
+      .data(data)
+      .enter().append("circle")
       .attr("cx", function(d) { return x(d.x) })
       .attr("cy", function(d) { return y(d.y) })
       .attr("r", 3.5)
