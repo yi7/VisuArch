@@ -295,6 +295,7 @@ function lineGraph(data, id) {
 
 vis.append('svg:g')
   .attr('class', 'x axis')
+  .attr('fill', 'white')
   .attr('transform', 'translate(0,' + (HEIGHT - MARGINS.bottom) + ')')
   .call(xAxis)//;
   .append("text")
