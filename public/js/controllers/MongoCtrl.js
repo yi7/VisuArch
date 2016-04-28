@@ -317,8 +317,8 @@ vis.append('svg:g')
   .call(yAxis) //;
   .append("text")
   //.attr("transform", "rotate(-90)")
-  .attr("x", WIDTH/2 + 20)
-  .attr("y", 10)
+  .attr("x", WIDTH/2 + 50)
+  .attr("y", 25)
   .attr("dy", ".12em")
   .style("text-anchor", "end")
   .text("Cash Timeline (7/21/15 - 7/30/15)");
