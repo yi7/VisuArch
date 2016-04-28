@@ -20,6 +20,7 @@ app.controller('TiaaFirebaseController', function($scope, $filter, Tiaa) {
     }
 
     // Overview Information
+    $scope.stub = false; // flag for table row stub
     Tiaa.firebaseGetAll().then(function(response) {
         var total = 0;
         var transactions = response.data.length;
@@ -67,18 +68,34 @@ app.controller('TiaaFirebaseController', function($scope, $filter, Tiaa) {
             loadLiquidFillGauge("fillgauge" + i++, percentage, config1);
         }
 
-        // Splitting Trancodes into two columns
-        var codes = Object.keys(trancodes).length;
+        // ===================================================================
+        // Trancode-Activity Information: Splitting Trancodes into two columns
+        var total_trancode = Object.keys(trancodes).length;
         var i = 0;
         $scope.trancodes_left = [];
         $scope.trancodes_right = [];
+        var trancode_to_desc = {
+            114: "Contributions",
+            301: "Adjustments",
+            366: "Transfers",
+            394: "Transfers",
+            395: "Transfers",
+            414: "Distributions",
+            444: "Distributions",
+            588: "OmniScript"
+        }
         for(var trancode in trancodes) {
             if(i % 2 == 0) {
-                $scope.trancodes_left.push(trancode);
+                $scope.trancodes_left.push(trancode_to_desc[trancode] + ' (' + trancode + ')');
             } else {
-                $scope.trancodes_right.push(trancode);
+                $scope.trancodes_right.push(trancode_to_desc[trancode] + ' (' + trancode + ')');
             }
             i++;
+        }
+
+        // if odd number of activity, add a stub table row
+        if(total_trancode % 2 != 0) {
+            $scope.stub = true;
         }
 
         // timer to calculate page load time for overview
@@ -86,8 +103,8 @@ app.controller('TiaaFirebaseController', function($scope, $filter, Tiaa) {
     });
 
     // Liquid Guage Selection. Highlights the selected liquid gauge
-    $scope.display = false;
-    $scope.rect_display = false;
+    $scope.display = false; // flag for overall bottom display
+    $scope.rect_display = false; // flag for bar chart display
     $scope.select_gauge = function(id, color) {
         $scope.display = true;
         $scope.rect_display = true;
@@ -178,8 +195,61 @@ app.controller('TiaaFirebaseController', function($scope, $filter, Tiaa) {
         });
     }
 
-    $scope.select_tran = function(code) {
+    $scope.select_trancode = function(code) {
         $scope.display = true;
-        console.log(code);
+        $scope.tran_display = true;
+
+        var regExp = /\(([^)]+)\)/; // regex to get between paranthesis
+        var extract = regExp.exec(code);
+
+        Tiaa.firebaseQuery('TRAN_CODE', extract[1]).then(function(response) {
+            var combination = {};
+            var transactions = response.data.length;
+            for(var i = 0; i < transactions; i++) {
+                var combo = response.data[i].TRAN_CODE + '-' + response.data[i].ACTIVITY;
+                if(!combination[combo]) {
+                    combination[combo] = 0;
+                }
+                combination[combo]++;
+            }
+
+            d3.select("#tran_display").selectAll("svg").remove();
+
+            var config1 = rectangularAreaChartDefaultSettings();
+            config1.expandFromLeft = true;
+            config1.expandFromTop = true;
+            config1.colorScale = d3.scale.category20b();
+            config1.displayValueText = false;
+            config1.maxValue = 100;
+
+            var activity_to_desc = {
+                1: "Contribution Received",
+                2: "Cash Earnings",
+                12: "Plan Transfer In",
+                23: "Termination Distribution",
+                24: "Miscellaneous Debit",
+                25: "Withdrawal Distribution",
+                59: "Plan Transfer Out"
+            }
+            var i = 1;
+            for(var combo in combination) {
+                config1.colorsScale = d3.scale.ordinal().range(["#235676"]);
+                var split = combo.split('-'); // 0-tran 1-activity
+                var data = [];
+                var percent = (combination[combo] / transactions * 100).toFixed(1).toString();
+                var obj = {
+                    value: "100",
+                    label: activity_to_desc[split[1]] + " (" + split[1] + ") : " + percent + "%"
+                }
+                data.push(obj);
+
+                d3.select("#tran_display")
+                    .append("svg")
+                    .attr("id", "rectChartB" + i)
+                    .attr("width", "100%")
+                    .attr("height", "18px")
+                loadRectangularAreaChart("rectChartB" + i++, data, config1);
+            }
+        });
     }
 });
