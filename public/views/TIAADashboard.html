@@ -45,7 +45,7 @@
     <div class="row" style="background-color: #34a3d6; padding-bottom: 30px;">
         <div class="col-md-7" style="padding-right: 0px;">
             <div style="background-color: #5eafd7;">
-                <font size="5" color="white" style="padding: 10px;">Categories</font>
+                <font size="5" color="white" style="padding: 10px;">Category</font>
                 <br/><br/>
                 <div id="gauge_display" style="padding-left: 10px;">
                     <svg ng-click="select_gauge('fillgauge1', '#f5a623')" id="fillgauge1" width="32%" height="80%"></svg>
@@ -56,15 +56,15 @@
         </div>
         <div class="col-md-5" style="padding-left: 0px;">
             <div style="background-color: #5eafd7; height: 210px;">
-                <font size="5" color="white" style="padding: 10px;">Trancodes</font>
+                <font size="5" color="white" style="padding: 10px;">Trancode</font>
                 <br/><br/>
-                <div id="trancode_display" style="padding-right: 10px; padding-left: 10px;">
+                <div style="padding-right: 10px; padding-left: 10px;">
                     <table style="width: 100%; background-color: #178BCA;">
                         <tr>
                             <td>
                                 <table style="width: 100%;">
-                                    <tr ng-repeat="trancode in trancodes_left" style="text-align: center; border: 1px solid #ccc;">
-                                        <td class="hover" ng-click="select_tran(trancode)" style="text-align: center; padding: 8px; border: 1px solid #5EAFD7">
+                                    <tr ng-repeat="trancode in trancodes_left" style="text-align: center;">
+                                        <td class="hover" ng-click="select_trancode(trancode)" style="text-align: center; padding: 8px; border: 1px solid #5EAFD7">
                                             <font color="white">{{trancode}}</font>
                                         </td>
                                     </tr>
@@ -72,9 +72,14 @@
                             </td>
                             <td>
                                 <table style="width: 100%;">
-                                    <tr ng-repeat="trancode in trancodes_right" style="text-align: center; border: 1px solid #ccc;">
-                                        <td class="hover" ng-click="select_tran(trancode)" style="text-align: center; padding: 8px; border: 1px solid #5EAFD7">
+                                    <tr ng-repeat="trancode in trancodes_right" style="text-align: center;">
+                                        <td class="hover" ng-click="select_trancode(trancode)" style="text-align: center; padding: 8px; border: 1px solid #5EAFD7">
                                             <font color="white">{{trancode}}</font>
+                                        </td>
+                                    </tr>
+                                    <tr ng-if="stub" style="text-align: center;">
+                                        <td style="text-align: center; padding: 8px; border: 1px solid #5EAFD7">
+                                            <font color="#178BCA">|</font>
                                         </td>
                                     </tr>
                                 </table>
@@ -125,7 +130,10 @@
         </div>
         <div class="col-md-5" ng-show="display" style="padding-left: 0px;">
             <div style="background-color: #5eafd7; height: 250px;">
-
+                <div ng-show="tran_display">
+                    <div id="tran_display" style="padding: 10px;">
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-md-12" style="padding-top: 15px;">

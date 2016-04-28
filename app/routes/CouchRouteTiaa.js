@@ -71,6 +71,19 @@ module.exports = function(router, nano) {
                         res.json(array);
                     }
                 });
+            } else if(req.params.type == 'TRAN_CODE') { // query object with passed CATEGORY
+                metric.list({include_docs: true}, function(err, body) {
+                    if (!err) {
+                        var array = [];
+                        body.rows.forEach(function(ref) {
+                            if(ref.doc.TRAN_CODE != req.params.key) {
+                                return;
+                            }
+                            array.push(ref.doc);
+                        });
+                        res.json(array);
+                    }
+                });
             }
         });
 

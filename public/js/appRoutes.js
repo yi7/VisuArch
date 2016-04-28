@@ -6,15 +6,15 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
             controller: 'MainController'
         })
         .when('/tiaamongo', {
-            templateUrl: 'views/tiaa.html',
+            templateUrl: 'views/TIAADashboard.html',
             controller: 'TiaaMongoController'
         })
         .when('/tiaafirebase', {
-            templateUrl: 'views/tiaa.html',
+            templateUrl: 'views/TIAADashboard.html',
             controller: 'TiaaFirebaseController'
         })
         .when('/tiaacouch', {
-            templateUrl: 'views/tiaa.html',
+            templateUrl: 'views/TIAADashboard.html',
             controller: 'TiaaCouchController'
         })
         .otherwise({
