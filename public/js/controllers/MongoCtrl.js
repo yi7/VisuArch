@@ -27,10 +27,8 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
 
         var total = 0;
         var transactions = response.data.length;
-<<<<<<< HEAD
         var result = {}; // dictionary to count CATEGORY, used for Category section
         var trancodes = {};
-=======
         var categories = {}; // dictionary to count CATEGORY, used for Category section
         var trancode = {};
         var transDay = {};
@@ -38,7 +36,6 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
 
 
         // loops through all transactions
->>>>>>> 1fe4f9c784c2fcc4313f2cb1acf3bdf9425165a4
         for(var i = 0; i < transactions; i++) {
             total += response.data[i].CASH;
 
@@ -50,15 +47,13 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
             if(!trancodes[response.data[i].TRAN_CODE]) {
                 trancodes[response.data[i].TRAN_CODE] = response.data[i].TRAN_CODE;
             }
-<<<<<<< HEAD
-=======
+
             trancode[response.data[i].TRAN_CODE]++;
 
             if(!transDay[response.data[i].TRADE_DATE]) {
                 transDay[response.data[i].TRADE_DATE] = 0;
             }
             transDay[response.data[i].TRADE_DATE] += response.data[i].CASH;
->>>>>>> 1fe4f9c784c2fcc4313f2cb1acf3bdf9425165a4
         }
         var average = total / transactions;
 
