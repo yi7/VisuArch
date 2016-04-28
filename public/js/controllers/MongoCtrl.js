@@ -340,13 +340,13 @@ vis.append('svg:g')
   .attr("class", "line-point");
 
   point.selectAll("dot")
-      .data(data)
+      //.data(data)
       .enter().append("circle")
       .attr("cx", function(d) { return d.x })
       .attr("cy", function(d) { return d.y })
       .attr("r", 3.5)
-      .style("fill", "white")
-      .style("stroke", "white");
+      .style("fill", "white");
+      //.style("stroke", "white");
 
 //end
 }
