@@ -350,7 +350,7 @@ vis.append('svg:g')
   .attr("x", WIDTH/2 + 50)
   .attr("y", 25)
   .attr("dy", ".20em")
-  .attr("font-size", "5")
+  .attr("font-size", "55")
   .style("text-anchor", "end")
   .text("Cash Timeline (7/21/15 - 7/30/15)");
 
