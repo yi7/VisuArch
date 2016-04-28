@@ -1,6 +1,8 @@
 var app = angular.module('CouchCtrl', []);
 
 app.controller('TiaaCouchController', function($scope, $filter, Tiaa) {
+    var timerStart = Date.now();
+
     // Modal Popup. User enters a TRN (ex.2055745) in the searchbox
     $scope.showModal = false;
     $scope.search = function() {
@@ -8,9 +10,12 @@ app.controller('TiaaCouchController', function($scope, $filter, Tiaa) {
         $scope.title = $scope.TRN;
         $scope.transactions = [];
         Tiaa.couchQuery('TRN', $scope.TRN).then(function(response) {
+            var searchTotal = 0;
             for(var i = 0; i < response.data.length; i++) {
                 $scope.transactions.push(response.data[i]);
+                searchTotal += response.data[i].CASH;
             }
+            $scope.searchTotal = searchTotal;
         });
     }
 
@@ -30,6 +35,7 @@ app.controller('TiaaCouchController', function($scope, $filter, Tiaa) {
         var average = total / transactions;
 
         $scope.total_cash = Math.round(total).toLocaleString();
+        $scope.total_average = Math.round(average).toLocaleString();
         $scope.total_transaction = transactions;
 
         // =======================================================
@@ -61,11 +67,13 @@ app.controller('TiaaCouchController', function($scope, $filter, Tiaa) {
             }
             loadLiquidFillGauge("fillgauge" + i++, percentage, config1);
         }
+
+        $scope.timer = (Date.now() - timerStart) / 1000 % 60;
     });
 
     // Liquid Guage Selection. Highlights the selected liquid gauge
     $scope.display = false;
-    $scope.select = function(id) {
+    $scope.select = function(id, color) {
         // check to make sure the id I inserted exists, otherwise ignore
         if(d3.select("#" + id).select("div").empty()) {
             return;
@@ -84,8 +92,9 @@ app.controller('TiaaCouchController', function($scope, $filter, Tiaa) {
             .select("circle")
             .style("fill", "#178bca");
 
-        d3.select("#" + id).select("g").select("path").style("fill", "#f5a623");
-        d3.select("#" + id).select("g").select("g").select("circle").style("fill", "#f5a623");
+        d3.select("#infoBox").select("table").attr("style", "width: 100%; background-color: " + color + ";");
+        d3.select("#" + id).select("g").select("path").style("fill", color);
+        d3.select("#" + id).select("g").select("g").select("circle").style("fill", color);
 
         $scope.display = true;
         var category = d3.select("#" + id).select("div").attr("id");

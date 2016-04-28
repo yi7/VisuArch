@@ -18,18 +18,26 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
     Tiaa.mongoGetAll().then(function(response) {
         var total = 0;
         var transactions = response.data.length;
-        var result = {}; // dictionary to count CATEGORY, used for Category section
+        var categories = {}; // dictionary to count CATEGORY, used for Category section
+        var trancode = {};
+        // loops through all transactions
         for(var i = 0; i < transactions; i++) {
             total += response.data[i].CASH;
 
-            if(!result[response.data[i].CATEGORY]) {
-                result[response.data[i].CATEGORY] = 0;
+            if(!categories[response.data[i].CATEGORY]) {
+                categories[response.data[i].CATEGORY] = 0;
             }
-            result[response.data[i].CATEGORY]++;
+            categories[response.data[i].CATEGORY]++;
+
+            if(!trancode[response.data[i].TRAN_CODE]) {
+                trancode[response.data[i].TRAN_CODE] = 0;
+            }
+            trancode[response.data[i].TRAN_CODE]++;
         }
         var average = total / transactions;
 
         $scope.total_cash = Math.round(total).toLocaleString();
+        $scope.total_average = Math.round(average).toLocaleString();
         $scope.total_transaction = transactions;
 
         // =======================================================
@@ -40,26 +48,26 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
         config1.textColor = "#ffffff";
         config1.waveTextColor = "#ffffff";
         config1.waveColor = "#178bca";
-        config1.waveHeight = 0.15;
+        config1.waveHeight = 0.1;
         config1.waveAnimateTime = 1000;
 
         var i = 1;
-        for(var category in result) {
-            if(category == "") {
-                d3.select("#fillgauge" + i)
-                    .append("div")
-                    .attr("id", "none");
-            } else {
-                d3.select("#fillgauge" + i)
-                    .append("div")
-                    .attr("id", category);
-            }
+        for(var category in categories) {
+            d3.select("#fillgauge" + i)
+                .append("div")
+                .attr("id", category);
 
-            var percentage = Math.round(result[category] / transactions * 100);
-            if(percentage == 0) {
-                percentage = 1;
-            }
+            var percentage = Math.round(categories[category] / transactions * 100);
             loadLiquidFillGauge("fillgauge" + i++, percentage, config1);
+        }
+
+        // table row of unique TRAN_CODE
+        $scope.tran_codes = [];
+        for(var tran_code in trancode) {
+            $scope.tran_codes.push({
+                "code": tran_code,
+                "percent": parseFloat(trancode[tran_code] / transactions * 100).toFixed(1)
+            });
         }
     });
 
@@ -97,7 +105,7 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
             var transactions = response.data.length;
             var min = response.data[0].CASH;
             var max = response.data[0].CASH;
-            result = {};
+            categories = {};
             for(var i = 0; i < transactions; i++) {
                 total += response.data[i].CASH;
                 if(response.data[i].CASH > max) {
@@ -107,10 +115,10 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
                     min = response.data[i].CASH;
                 }
 
-                if(!result[response.data[i].SUB_CATEGORY]) {
-                    result[response.data[i].SUB_CATEGORY] = 0;
+                if(!categories[response.data[i].SUB_CATEGORY]) {
+                    categories[response.data[i].SUB_CATEGORY] = 0;
                 }
-                result[response.data[i].SUB_CATEGORY]++;
+                categories[response.data[i].SUB_CATEGORY]++;
             }
             var average = (total / transactions).toFixed(2);
 
@@ -132,11 +140,11 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
             config1.maxValue = 100;
 
             var i = 1;
-            for(var category in result) {
+            for(var category in categories) {
                 config1.colorsScale = d3.scale.ordinal().range(["#37779d", "#235676"]);
 
                 var data = [];
-                var percent = Math.round(result[category] / transactions * 100).toString();
+                var percent = Math.round(categories[category] / transactions * 100).toString();
                 var obj = {
                     value: percent,
                     label: category + ": " + percent + "%"
@@ -153,6 +161,70 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
                     .attr("width", "100%")
                     .attr("height", "18px")
                 loadRectangularAreaChart("rectChart" + i++, data, config1);
+            }
+        });
+    }
+
+    $scope.display_tran = false;
+    $scope.select_tran = function(tran_code) {
+        if(!d3.select("#aster_display").select("svg").empty()) {
+            d3.select("#aster_display").select("svg").remove();
+        }
+
+        d3.select("#trancodeTable")
+            .select("tbody")
+            .selectAll("tr")
+            .select("td")
+            .select("a")
+            .select("div")
+            .attr("style", "width: 100%; height: 100%; padding: 7px; background-color: #178bca");
+
+        d3.select("#info" + tran_code.code)
+            .attr("style", "width: 100%; height: 100%; padding: 7px; background-color: #f5a623;");
+
+        $scope.display_tran = true;
+        Tiaa.mongoQuery('TRAN_CODE', parseInt(tran_code.code)).then(function(response) {
+            var combination = {};
+            var transactions = response.data.length;
+            for(var i = 0; i < transactions; i++) {
+                var combo = response.data[i].TRAN_CODE + '-' + response.data[i].ACTIVITY;
+                if(!combination[combo]) {
+                    combination[combo] = 0;
+                }
+                combination[combo]++;
+            }
+
+            d3.select("#tran_display").selectAll("svg").remove();
+
+            var config1 = rectangularAreaChartDefaultSettings();
+            config1.expandFromLeft = true;
+            config1.expandFromTop = true;
+            config1.colorScale = d3.scale.category20b();
+            config1.displayValueText = false;
+            config1.maxValue = 100;
+
+            var i = 1;
+            for(var combo in combination) {
+                config1.colorsScale = d3.scale.ordinal().range(["#37779d", "#235676"]);
+                var split = combo.split('-'); // 0-tran 1-activity
+                var data = [];
+                var percent = Math.round(combination[combo] / transactions * 100).toString();
+                var obj = {
+                    value: percent,
+                    label: split[1] + ": " + percent + "%"
+                }
+                var obj2 = {
+                    value: "100"
+                }
+                data.push(obj);
+                data.push(obj2);
+
+                d3.select("#tran_display")
+                    .append("svg")
+                    .attr("id", "rectChartB" + i)
+                    .attr("width", "100%")
+                    .attr("height", "18px")
+                loadRectangularAreaChart("rectChartB" + i++, data, config1);
             }
         });
     }

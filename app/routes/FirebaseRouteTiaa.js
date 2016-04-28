@@ -61,6 +61,14 @@ module.exports = function(router) {
                     });
                     res.json(array);
                 });
+            } else if(req.params.type == 'TRAN_CODE') { // query object with passed CATEGORY
+                ref.orderByChild('TRAN_CODE').equalTo(req.params.key).once('value', function(snap) {
+                    var array = [];
+                    snap.forEach(function(childSnap) {
+                        array.push(childSnap.val());
+                    });
+                    res.json(array);
+                });
             }
         });
 
