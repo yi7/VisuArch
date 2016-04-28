@@ -292,7 +292,7 @@ function lineGraph(data, id) {
       .tickSize(1)
       .orient('left')
       .tickSubdivide(true)
-      .tickFormat(d3.format("$", ","));
+      .tickFormat(d3.format("$,"));
 
 vis.append('svg:g')
   .attr('class', 'x axis')
