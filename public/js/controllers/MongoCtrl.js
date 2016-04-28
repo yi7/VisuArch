@@ -287,7 +287,7 @@ function lineGraph(data, id) {
       .scale(xRange)
       .tickSize(1)
       .tickSubdivide(true)
-      .tickValues(["7/21", "7/22", "7/23", "7/24", "7/25", "7/26", "7/27", "7/28", "7/29", "7/30", ]),
+      .tickValues(["7/21", "7/22", "7/23", "7/24", "7/25", "7/26", "7/27", "7/28", "7/29", "7/30"]),
     yAxis = d3.svg.axis()
       .scale(yRange)
       .tickSize(1)
