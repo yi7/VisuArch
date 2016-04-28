@@ -306,6 +306,7 @@ vis.append('svg:g')
 
 vis.append('svg:g')
   .attr('class', 'y axis')
+  .attr('fill', 'white')
   .attr('transform', 'translate(' + (MARGINS.left) + ',0)')
   .call(yAxis) //;
   .append("text")
