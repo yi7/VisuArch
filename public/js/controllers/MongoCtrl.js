@@ -299,7 +299,8 @@ vis.append('svg:g')
   .attr('transform', 'translate(0,' + (HEIGHT - MARGINS.bottom) + ')')
   .call(xAxis)//;
   .append("text")
-  .attr("y", 50)
+  .attr("y", 0)
+  .attr("x", 0)
   .attr("dy", ".8em")
   .style("text-anchor", "end")
   .text("Date Range 07/21/2015 - 07/30/2015");
@@ -310,7 +311,7 @@ vis.append('svg:g')
   .attr('transform', 'translate(' + (MARGINS.left) + ',0)')
   .call(yAxis) //;
   .append("text")
-  .attr("transform", "rotate(-90)")
+  //.attr("transform", "rotate(-90)")
   .attr("x", -20)
   .attr("y", 6)
   .attr("dy", ".8em")
