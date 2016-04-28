@@ -300,12 +300,12 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
 function lineGraph(data, id) {
 
   var set = d3.select(id)
-  .attr("width", "600")
+  .attr("width", "750")
   .attr("height", "250")
   .attr("style", "background-color: #34a3d6;");
 
   var vis = d3.select(id),
-    WIDTH = 600,
+    WIDTH = 750,
     HEIGHT = 250,
     MARGINS = {
       top: 20,
@@ -350,7 +350,7 @@ vis.append('svg:g')
   .attr("x", WIDTH/2 + 50)
   .attr("y", 25)
   .attr("dy", ".20em")
-  .attr("font-size", "55")
+  .attr("font-size", "25")
   .style("text-anchor", "end")
   .text("Cash Timeline (7/21/15 - 7/30/15)");
 
