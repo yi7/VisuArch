@@ -28,12 +28,11 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
         var total = 0;
         var transactions = response.data.length;
         var result = {}; // dictionary to count CATEGORY, used for Category section
-        var trancodes = {};
+        var trancodes = {}; // dictionary gets all unique trancode
         var categories = {}; // dictionary to count CATEGORY, used for Category section
         var trancode = {};
         var transDay = {};
         var lineData = [];
-
 
         // loops through all transactions
         for(var i = 0; i < transactions; i++) {
@@ -48,8 +47,6 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
                 trancodes[response.data[i].TRAN_CODE] = response.data[i].TRAN_CODE;
             }
 
-            trancode[response.data[i].TRAN_CODE]++;
-
             if(!transDay[response.data[i].TRADE_DATE]) {
                 transDay[response.data[i].TRADE_DATE] = 0;
             }
@@ -57,31 +54,33 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
         }
         var average = total / transactions;
 
+        // Line Chart Start
         delete transDay["7/20/2015"];
         delete transDay["7/31/2015"];
 
-
-
         for (var day in transDay) {
-          var x = day[2];
-          var y = day[3];
-          var xy = x.concat(y);
-          var date = Number(xy);
-          var cash = transDay[day];
-          var a = {"x":date, "y":cash};
-          lineData.push(a);
+            var x = day[2];
+            var y = day[3];
+            var xy = x.concat(y);
+            var date = Number(xy);
+            var cash = transDay[day];
+            var a = {"x":date, "y":cash};
+            lineData.push(a);
         }
 
-        console.log(lineData);
-        insertionSort(lineData);
-        lineGraph(lineData, '#line-viz');
+        Tiaa.lineChartSort(lineData);
+        Tiaa.lineChartMake(lineData, '#line-viz');
+        d3.select(".x_axis")
+            .selectAll("g")
+            .selectAll("text")
+            .text(function(d) {
+                return '7/' + d;
+            });
+        // Line Chart End
 
         $scope.total_cash = Math.round(total).toLocaleString();
         $scope.total_average = Math.round(average).toLocaleString();
         $scope.total_transaction = transactions;
-
-        // =======================================================
-        // Linechart Section shows Cash vs Trade Date
 
         // =======================================================
         // Category Information. Creates Liquid Gauge per Category
@@ -293,100 +292,4 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
             }
         });
     }
-
 });
-
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-function lineGraph(data, id) {
-
-  var set = d3.select(id)
-  .attr("width", "750")
-  .attr("height", "250")
-  .attr("style", "background-color: #34a3d6;");
-
-  var vis = d3.select(id),
-    WIDTH = 750,
-    HEIGHT = 250,
-    MARGINS = {
-      top: 20,
-      right: 20,
-      bottom: 20,
-      left: 80
-    },
-    xRange = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([d3.min(data, function(d) {
-      return d.x;
-    }), d3.max(data, function(d) {
-      return d.x;
-    })]),
-    yRange = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([d3.min(data, function(d) {
-      return d.y;
-    }), d3.max(data, function(d) {
-      return d.y;
-    })]),
-    xAxis = d3.svg.axis()
-      .scale(xRange)
-      .tickSize(1)
-      .tickSubdivide(true),
-    yAxis = d3.svg.axis()
-      .scale(yRange)
-      .tickSize(1)
-      .orient('left')
-      .tickSubdivide(true)
-      .tickFormat(d3.format("$,"));
-
-vis.append('svg:g')
-  .attr('class', 'x axis')
-  .attr('fill', 'white')
-  .attr('transform', 'translate(0,' + (HEIGHT - MARGINS.bottom) + ')')
-  .call(xAxis);
-
-vis.append('svg:g')
-  .attr('class', 'y axis')
-  .attr('fill', 'white')
-  .attr('transform', 'translate(' + (MARGINS.left) + ',0)')
-  .call(yAxis) //;
-  .append("text")
-  //.attr("transform", "rotate(-90)")
-  .attr("x", WIDTH/2 + 100)
-  .attr("y", 35)
-  .attr("dy", ".20em")
-  .attr("font-size", "25")
-  .style("text-anchor", "end")
-  .text("Cash Timeline (7/21/15 - 7/30/15)");
-
-
-
-  var lineFunc = d3.svg.line()
-    .x(function(d) {
-      return xRange(d.x);
-    })
-    .y(function(d) {
-      return yRange(d.y);
-    })
-    .interpolate('linear');
-
-    vis.append('svg:path')
-      .attr('d', lineFunc(data))
-      .attr('stroke', 'white')
-      .attr('stroke-width', 1)
-      .attr('fill', 'none');
-
-//end
-}
-
-function insertionSort(unsortedList) {
-  var len = unsortedList.length;
-
-  for(var i = 0; i < len; i++) {
-    var tmp = unsortedList[i]; //Copy of the current element.
-    /*Check through the sorted part and compare with the
-    number in tmp. If large, shift the number*/
-    for(var j = i - 1; j >= 0 && (unsortedList[j].x > tmp.x); j--) {
-      //Shift the number
-      unsortedList[j+1] = unsortedList[j];
-    }
-    //Insert the copied number at the correct position
-    //in sorted part.
-    unsortedList[j+1] = tmp;
-  }
-}
