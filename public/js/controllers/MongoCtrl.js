@@ -334,13 +334,8 @@ vis.append('svg:g')
       .attr('d', lineFunc(data))
       .attr('stroke', 'white')
       .attr('stroke-width', 1)
-      .attr('fill', 'none');
-
-  var point = vis.append("svg:g")
-  .attr("class", "line-point");
-
-  point.selectAll("circle")
-      .data(data)
+      .attr('fill', 'none')
+      //------------------------------
       .enter().append("circle")
       .attr("cx", function(d) { return d.x })
       .attr("cy", function(d) { return d.y })
