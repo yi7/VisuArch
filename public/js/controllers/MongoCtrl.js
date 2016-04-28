@@ -263,6 +263,10 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 function lineGraph(data, id) {
 
+  var set = d3.select(id)
+  .attr("width", "500")
+  .attr("height", "250")
+  .attr("style", "background-color: #34a3d6;");
 
   var vis = d3.select(id),
     WIDTH = 500,
@@ -334,14 +338,7 @@ vis.append('svg:g')
       .attr('d', lineFunc(data))
       .attr('stroke', 'white')
       .attr('stroke-width', 1)
-      .attr('fill', 'none')
-      //------------------------------
-      .enter().append("circle")
-      .attr("cx", function(d) { return d.x })
-      .attr("cy", function(d) { return d.y })
-      .attr("r", 30)
-      .style("fill", "white")
-      .style("stroke", "white");
+      .attr('fill', 'none');
 
 //end
 }
