@@ -336,6 +336,16 @@ vis.append('svg:g')
       .attr('stroke-width', 1)
       .attr('fill', 'none');
 
+  var point = vis.append("svg:g")
+  .attr("class", "line-point");
+
+  point.selectAll('circle')
+      .enter().append('circle')
+      .attr("cx", function(d) { return x(d.x) })
+      .attr("cy", function(d) { return y(d.y) })
+      .attr("r", 3.5)
+      .style("fill", "white")
+      .style("stroke", "white"; });
 
 //end
 }
