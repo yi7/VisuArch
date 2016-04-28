@@ -1,11 +1,12 @@
 var app = angular.module('CouchCtrl', []);
 
 app.controller('TiaaCouchController', function($scope, $filter, Tiaa) {
-    var timerStart = Date.now();
-
+    var timerOverview = Date.now();
+    $scope.database = 'Cloudant\'s (CouchDB)';
     // Modal Popup. User enters a TRN (ex.2055745) in the searchbox
     $scope.showModal = false;
     $scope.search = function() {
+        var timerSearch = Date.now();
         $scope.showModal = !$scope.showModal;
         $scope.title = $scope.TRN;
         $scope.transactions = [];
@@ -16,6 +17,7 @@ app.controller('TiaaCouchController', function($scope, $filter, Tiaa) {
                 searchTotal += response.data[i].CASH;
             }
             $scope.searchTotal = searchTotal;
+            console.log('TRN Query: ' + (Date.now() - timerSearch) / 1000 % 60);
         });
     }
 
@@ -99,13 +101,16 @@ app.controller('TiaaCouchController', function($scope, $filter, Tiaa) {
         }
 
         // timer to calculate page load time for overview
-        $scope.timer = (Date.now() - timerStart) / 1000 % 60;
+        time = (Date.now() - timerOverview) / 1000 % 60;
+        $scope.timer = time;
+        console.log('Overview: ' + time);
     });
 
     // Liquid Guage Selection. Highlights the selected liquid gauge
     $scope.display = false; // flag for overall bottom display
     $scope.rect_display = false; // flag for bar chart display
     $scope.select_gauge = function(id, color) {
+        var timerCategory = Date.now();
         $scope.display = true;
         $scope.rect_display = true;
 
@@ -192,6 +197,8 @@ app.controller('TiaaCouchController', function($scope, $filter, Tiaa) {
                     .attr("height", "18px")
                 loadRectangularAreaChart("rectChart" + i++, data, config1);
             }
+
+            console.log('Category Query: ' + (Date.now() - timerCategory) / 1000 % 60);
         });
     }
 
