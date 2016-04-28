@@ -1,5 +1,18 @@
+body {
+    font-family: 'Merriweather', serif;
+}
+
 #gauge_display svg {
     cursor: pointer;
+}
+
+.bottom {
+    border-bottom: 1px solid #ccc;
+}
+
+.hover:hover {
+    cursor: pointer;
+    background-color: #f5a623;
 }
 
 #trancodeBox table tr td {
@@ -13,8 +26,4 @@
 
 #trancodeBox table tr td a div:hover {
     background-color: #f5a623;
-}
-
-.bottom {
-    border-bottom: 1px solid #ccc;
 }
