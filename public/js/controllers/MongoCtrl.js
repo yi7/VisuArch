@@ -345,7 +345,7 @@ vis.append('svg:g')
       .attr("cy", function(d) { return y(d.y) })
       .attr("r", 3.5)
       .style("fill", "white")
-      .style("stroke", "white"; });
+      .style("stroke", "white");
 
 //end
 }
