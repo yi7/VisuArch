@@ -24,10 +24,17 @@ app.controller('TiaaCouchController', function($scope, $filter, Tiaa) {
     // Overview Information
     $scope.stub = false; // flag for table row stub
     Tiaa.couchGetAll().then(function(response) {
+
         var total = 0;
         var transactions = response.data.length;
         var result = {}; // dictionary to count CATEGORY, used for Category section
-        var trancodes = {};
+        var trancodes = {}; // dictionary gets all unique trancode
+        var categories = {}; // dictionary to count CATEGORY, used for Category section
+        var trancode = {};
+        var transDay = {};
+        var lineData = [];
+
+        // loops through all transactions
         for(var i = 0; i < transactions; i++) {
             total += response.data[i].CASH;
 
@@ -39,15 +46,41 @@ app.controller('TiaaCouchController', function($scope, $filter, Tiaa) {
             if(!trancodes[response.data[i].TRAN_CODE]) {
                 trancodes[response.data[i].TRAN_CODE] = response.data[i].TRAN_CODE;
             }
+
+            if(!transDay[response.data[i].TRADE_DATE]) {
+                transDay[response.data[i].TRADE_DATE] = 0;
+            }
+            transDay[response.data[i].TRADE_DATE] += response.data[i].CASH;
         }
         var average = total / transactions;
+
+        // Line Chart Start
+        delete transDay["7/20/2015"];
+        delete transDay["7/31/2015"];
+
+        for (var day in transDay) {
+            var x = day[2];
+            var y = day[3];
+            var xy = x.concat(y);
+            var date = Number(xy);
+            var cash = transDay[day];
+            var a = {"x":date, "y":cash};
+            lineData.push(a);
+        }
+
+        Tiaa.lineChartSort(lineData);
+        Tiaa.lineChartMake(lineData, '#line-viz');
+        d3.select(".x_axis")
+            .selectAll("g")
+            .selectAll("text")
+            .text(function(d) {
+                return '7/' + d;
+            });
+        // Line Chart End
 
         $scope.total_cash = Math.round(total).toLocaleString();
         $scope.total_average = Math.round(average).toLocaleString();
         $scope.total_transaction = transactions;
-
-        // =======================================================
-        // Linechart Section shows Cash vs Trade Date
 
         // =======================================================
         // Category Information. Creates Liquid Gauge per Category

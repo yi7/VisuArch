@@ -1,6 +1,7 @@
 angular.module('TiaaService', [])
     .factory('Tiaa', ['$http', function($http) {
         return {
+            // Below are REST calls to metric api
             mongoGetAll: function() {
                 return $http.get('/api/mongometrics');
             },
@@ -38,6 +39,97 @@ angular.module('TiaaService', [])
             },
             couchQuery: function(type, key) {
                 return $http.get('/api/couchmetrics/query/' + type + '/' + key);
+            },
+
+            // =========================================
+            // Below are functions for making Line Chart
+            lineChartMake: function(data, id) {
+
+                var set = d3.select(id)
+                    .attr("width", "750")
+                    .attr("height", "250")
+                    .attr("style", "background-color: #34a3d6;");
+
+                var vis = d3.select(id),
+                    WIDTH = 750,
+                    HEIGHT = 250,
+                    MARGINS = {
+                        top: 20,
+                        right: 20,
+                        bottom: 20,
+                        left: 80
+                    },
+                    xRange = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([d3.min(data, function(d) {
+                        return d.x;
+                    }), d3.max(data, function(d) {
+                        return d.x;
+                    })]),
+                    yRange = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([d3.min(data, function(d) {
+                        return d.y;
+                    }), d3.max(data, function(d) {
+                        return d.y;
+                    })]),
+                    xAxis = d3.svg.axis()
+                        .scale(xRange)
+                        .tickSize(1)
+                        .tickSubdivide(true),
+                    yAxis = d3.svg.axis()
+                        .scale(yRange)
+                        .tickSize(1)
+                        .orient('left')
+                        .tickSubdivide(true)
+                        .tickFormat(d3.format("$,"));
+
+                vis.append('svg:g')
+                    .attr('class', 'x_axis')
+                    .attr('fill', 'white')
+                    .attr('transform', 'translate(0,' + (HEIGHT - MARGINS.bottom) + ')')
+                    .call(xAxis);
+
+                vis.append('svg:g')
+                    .attr('class', 'y_axis')
+                    .attr('fill', 'white')
+                    .attr('transform', 'translate(' + (MARGINS.left) + ',0)')
+                    .call(yAxis)
+                    .append("text")
+                    .attr("x", WIDTH/2 + 100)
+                    .attr("y", 35)
+                    .attr("dy", ".20em")
+                    .attr("font-size", "25")
+                    .style("text-anchor", "end")
+                    .text("Cash Timeline (7/21/15 - 7/30/15)");
+
+                var lineFunc = d3.svg.line()
+                    .x(function(d) {
+                        return xRange(d.x);
+                    })
+                    .y(function(d) {
+                        return yRange(d.y);
+                    })
+                    .interpolate('linear');
+
+                vis.append('svg:path')
+                    .attr('d', lineFunc(data))
+                    .attr('stroke', 'white')
+                    .attr('stroke-width', 1)
+                    .attr('fill', 'none');
+            //end
+            },
+
+            lineChartSort: function(unsortedList) {
+                var len = unsortedList.length;
+
+                for(var i = 0; i < len; i++) {
+                    var tmp = unsortedList[i]; // Copy of the current element.
+                    /* Check through the sorted part and compare with the
+                    number in tmp. If large, shift the number */
+                    for(var j = i - 1; j >= 0 && (unsortedList[j].x > tmp.x); j--) {
+                        // Shift the number
+                        unsortedList[j+1] = unsortedList[j];
+                    }
+                    // Insert the copied number at the correct position in sorted part.
+                    unsortedList[j+1] = tmp;
+                }
             }
         }
 }]);
