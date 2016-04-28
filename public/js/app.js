@@ -6,6 +6,7 @@ angular.module('visuarchApp',
         'MongoCtrl',
         'FirebaseCtrl',
         'CouchCtrl',
-        'TiaaService'
+        'TiaaService',
+        'TiaaDirective'
     ]
 );

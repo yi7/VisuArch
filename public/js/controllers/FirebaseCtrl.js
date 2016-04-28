@@ -24,6 +24,7 @@ app.controller('TiaaFirebaseController', function($scope, $filter, Tiaa) {
         var total = 0;
         var transactions = response.data.length;
         var result = {}; // dictionary to count CATEGORY, used for Category section
+        var trancodes = {};
         for(var i = 0; i < transactions; i++) {
             total += response.data[i].CASH;
 
@@ -31,12 +32,19 @@ app.controller('TiaaFirebaseController', function($scope, $filter, Tiaa) {
                 result[response.data[i].CATEGORY] = 0;
             }
             result[response.data[i].CATEGORY]++;
+
+            if(!trancodes[response.data[i].TRAN_CODE]) {
+                trancodes[response.data[i].TRAN_CODE] = response.data[i].TRAN_CODE;
+            }
         }
         var average = total / transactions;
 
         $scope.total_cash = Math.round(total).toLocaleString();
         $scope.total_average = Math.round(average).toLocaleString();
         $scope.total_transaction = transactions;
+
+        // =======================================================
+        // Linechart Section shows Cash vs Trade Date
 
         // =======================================================
         // Category Information. Creates Liquid Gauge per Category
@@ -51,33 +59,38 @@ app.controller('TiaaFirebaseController', function($scope, $filter, Tiaa) {
 
         var i = 1;
         for(var category in result) {
-            if(category == "") {
-                d3.select("#fillgauge" + i)
-                    .append("div")
-                    .attr("id", "none");
-            } else {
-                d3.select("#fillgauge" + i)
-                    .append("div")
-                    .attr("id", category);
-            }
+            d3.select("#fillgauge" + i)
+                .append("div")
+                .attr("id", category);
 
             var percentage = Math.round(result[category] / transactions * 100);
-            if(percentage == 0) {
-                percentage = 1;
-            }
             loadLiquidFillGauge("fillgauge" + i++, percentage, config1);
         }
 
+        // Splitting Trancodes into two columns
+        var codes = Object.keys(trancodes).length;
+        var i = 0;
+        $scope.trancodes_left = [];
+        $scope.trancodes_right = [];
+        for(var trancode in trancodes) {
+            if(i % 2 == 0) {
+                $scope.trancodes_left.push(trancode);
+            } else {
+                $scope.trancodes_right.push(trancode);
+            }
+            i++;
+        }
+
+        // timer to calculate page load time for overview
         $scope.timer = (Date.now() - timerStart) / 1000 % 60;
     });
 
     // Liquid Guage Selection. Highlights the selected liquid gauge
     $scope.display = false;
-    $scope.select = function(id, color) {
-        // check to make sure the id I inserted exists, otherwise ignore
-        if(d3.select("#" + id).select("div").empty()) {
-            return;
-        }
+    $scope.rect_display = false;
+    $scope.select_gauge = function(id, color) {
+        $scope.display = true;
+        $scope.rect_display = true;
 
         d3.select("#gauge_display")
             .selectAll("svg")
@@ -96,7 +109,6 @@ app.controller('TiaaFirebaseController', function($scope, $filter, Tiaa) {
         d3.select("#" + id).select("g").select("path").style("fill", color);
         d3.select("#" + id).select("g").select("g").select("circle").style("fill", color);
 
-        $scope.display = true;
         var category = d3.select("#" + id).select("div").attr("id");
         $scope.category = category;
 
@@ -142,7 +154,7 @@ app.controller('TiaaFirebaseController', function($scope, $filter, Tiaa) {
 
             var i = 1;
             for(var category in result) {
-                config1.colorsScale = d3.scale.ordinal().range(["#37779d", "#235676"]);
+                config1.colorsScale = d3.scale.ordinal().range(["#37779d", color]);
 
                 var data = [];
                 var percent = Math.round(result[category] / transactions * 100).toString();
@@ -164,5 +176,10 @@ app.controller('TiaaFirebaseController', function($scope, $filter, Tiaa) {
                 loadRectangularAreaChart("rectChart" + i++, data, config1);
             }
         });
+    }
+
+    $scope.select_tran = function(code) {
+        $scope.display = true;
+        console.log(code);
     }
 });
