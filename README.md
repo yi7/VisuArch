@@ -11,7 +11,7 @@ However instead of just MongoDB, we used Firebase and CouchDB as well to benchma
 | Firebase       | Firebase   |
 | Cloudant       | CouchDB    |
 
-You can visit the site [here](https://visuarch.herokuapp.com/).
+You can visit the site at: [https://visuarch.herokuapp.com](https://visuarch.herokuapp.com/).
 
 __Business Challenge:__ Understanding underlying trends and patterns in transaction data to facilitate easier decision making.
 
