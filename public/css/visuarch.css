@@ -14,3 +14,8 @@ body {
     cursor: pointer;
     background-color: #f5a623;
 }
+
+.selected {
+    cursor: pointer;
+    background-color: #f5a623;
+}
