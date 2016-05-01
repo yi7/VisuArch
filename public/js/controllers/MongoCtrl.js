@@ -121,9 +121,15 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
         }
         for(var trancode in trancodes) {
             if(i % 2 == 0) {
-                $scope.trancodes_left.push(trancode_to_desc[trancode] + ' (' + trancode + ')');
+                $scope.trancodes_left.push({
+                    "description": trancode_to_desc[trancode] + ' (' + trancode + ')',
+                    "id": trancode
+                });
             } else {
-                $scope.trancodes_right.push(trancode_to_desc[trancode] + ' (' + trancode + ')');
+                $scope.trancodes_right.push({
+                    "description": trancode_to_desc[trancode] + ' (' + trancode + ')',
+                    "id": trancode
+                });
             }
             i++;
         }
@@ -239,10 +245,15 @@ app.controller('TiaaMongoController', function($scope, $filter, Tiaa) {
         $scope.display = true;
         $scope.tran_display = true;
 
-        var regExp = /\(([^)]+)\)/; // regex to get between paranthesis
-        var extract = regExp.exec(code);
+        d3.select("#tran_table")
+            .selectAll("tr")
+            .select("td")
+            .attr("class", "hover");
 
-        Tiaa.mongoQuery('TRAN_CODE', extract[1]).then(function(response) {
+        d3.select("#tran_" + code)
+            .attr("class", "selected");
+
+        Tiaa.mongoQuery('TRAN_CODE', code).then(function(response) {
             var combination = {};
             var transactions = response.data.length;
             for(var i = 0; i < transactions; i++) {
