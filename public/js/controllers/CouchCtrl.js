@@ -245,7 +245,12 @@ app.controller('TiaaCouchController', function($scope, $filter, Tiaa) {
         $scope.display = true;
         $scope.tran_display = true;
 
-        d3.select("#tran_table")
+        d3.select("#tran_table_left")
+            .selectAll("tr")
+            .select("td")
+            .attr("class", "hover");
+
+        d3.select("#tran_table_right")
             .selectAll("tr")
             .select("td")
             .attr("class", "hover");
