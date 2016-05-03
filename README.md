@@ -1,5 +1,5 @@
 # VisuArch
-### Visualization of Architecture Metrics
+### Data Visualization Analytics
 
 VisuArch is a Senior Capstone Project written using the MEAN Stack and D3js.<br/>
 However instead of just MongoDB, we used Firebase and CouchDB as well to benchmark performance.<br/>
@@ -11,7 +11,7 @@ However instead of just MongoDB, we used Firebase and CouchDB as well to benchma
 | Firebase       | Firebase   |
 | Cloudant       | CouchDB    |
 
-You can visit the site at: [https://visuarch.herokuapp.com](https://visuarch.herokuapp.com/).
+We used heroku to host the dashboard. You can visit the site at: [https://visuarch.herokuapp.com](https://visuarch.herokuapp.com/).
 
 __Business Challenge:__ Understanding underlying trends and patterns in transaction data to facilitate easier decision making.
 
