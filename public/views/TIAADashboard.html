@@ -68,7 +68,7 @@
                     <table style="width: 100%; background-color: #178BCA;">
                         <tr>
                             <td>
-                                <table id="tran_table" style="width: 100%;">
+                                <table id="tran_table_left" style="width: 100%;">
                                     <tr ng-repeat="trancode in trancodes_left" style="text-align: center;">
                                         <td id="tran_{{trancode.id}}" class="hover" ng-click="select_trancode(trancode.id)" style="text-align: center; padding: 8px; border: 1px solid #5EAFD7">
                                             <font color="white">{{trancode.description}}</font>
@@ -77,7 +77,7 @@
                                 </table>
                             </td>
                             <td>
-                                <table id="tran_table" style="width: 100%;">
+                                <table id="tran_table_right" style="width: 100%;">
                                     <tr ng-repeat="trancode in trancodes_right" style="text-align: center;">
                                         <td id="tran_{{trancode.id}}" class="hover" ng-click="select_trancode(trancode.id)" style="text-align: center; padding: 8px; border: 1px solid #5EAFD7">
                                             <font color="white">{{trancode.description}}</font>
