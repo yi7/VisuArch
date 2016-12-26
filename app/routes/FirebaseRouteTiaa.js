@@ -1,5 +1,5 @@
 var firebase = require('firebase');
-var url = 'your firebase url';
+var url = 'https://blinding-heat-7423.firebaseio.com/metrics';
 
 module.exports = function(router) {
     router.route('/firebasemetrics')
